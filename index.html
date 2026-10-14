@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pork & Beef · Pedí tu bondiola</title>
+    <meta name="description" content="Sándwiches de bondiola a la cerveza. Armá tu pedido online y lo confirmamos por WhatsApp.">
+    <meta name="theme-color" content="#14100d">
+    <meta property="og:title" content="Pork & Beef · Bondiola a la cerveza">
+    <meta property="og:description" content="Armá tu pedido online y lo confirmamos por WhatsApp.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2314100d'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle'%3E%F0%9F%8D%96%3C/text%3E%3C/svg%3E">
+    <!-- Google Fonts for elevated typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0d0e12;
+            --surface-card: #161820;
+            --surface-accordion: #1e212b;
+            --surface-input: #12141a;
+            --surface-hover: #262a37;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(245, 158, 11, 0.4);
+            --accent-gold: #f59e0b;
+            --accent-gold-dark: #d97706;
+            --accent-glow: rgba(245, 158, 11, 0.2);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --whatsapp-green: #22c55e;
+            --whatsapp-glow: rgba(34, 197, 94, 0.25);
+            --radius-main: 20px;
+            --radius-inner: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body { 
+            font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            background-color: var(--bg-body); 
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 100% 100%, rgba(217, 119, 6, 0.04) 0%, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary); 
+            margin: 0; 
+            padding: 20px 12px; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 540px; 
+            background: var(--surface-card); 
+            padding: 28px 22px; 
+            border-radius: var(--radius-main); 
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7); 
+            box-sizing: border-box; 
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animar { animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        .header { text-align: center; margin-bottom: 28px; position: relative; }
+        .brand-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent-gold);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+        .header h1 { 
+            color: var(--text-primary); 
+            font-size: 32px; 
+            font-weight: 800; 
+            margin: 0; 
+            letter-spacing: -0.5px; 
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 30%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p { color: var(--text-secondary); font-size: 14px; margin-top: 6px; font-weight: 500; }
+
+        .seccion { 
+            background: var(--surface-card); 
+            border-radius: var(--radius-inner); 
+            padding: 16px; 
+            margin-bottom: 16px; 
+            border: 1px solid var(--border-subtle);
+        }
+
+        .seccion h3 { margin: 0 0 4px 0; font-size: 16px; font-weight: 700; color: var(--text-primary); }
+        .seccion p.desc { margin: 0 0 14px 0; font-size: 13px; color: var(--text-secondary); }
+
+        .campo-grupo { margin-bottom: 14px; }
+        .campo-grupo:last-child { margin-bottom: 0; }
+        .campo-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        input[type="text"], select { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border-radius: var(--radius-inner); 
+            border: 1px solid var(--border-subtle); 
+            background: var(--surface-input); 
+            color: var(--text-primary); 
+            font-size: 14px; 
+            font-family: inherit;
+            box-sizing: border-box; 
+            appearance: none; 
+            transition: all 0.2s ease;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+            cursor: pointer;
+            padding-right: 40px;
+        }
+
+        input[type="text"]:focus, select:focus { 
+            outline: none; 
+            border-color: var(--accent-gold); 
+            box-shadow: 0 0 0 3px var(--accent-glow); 
+        }
+
+        details.acordeon-bar {
+            background: var(--surface-accordion);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-inner);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        details.acordeon-bar[open] {
+            border-color: var(--border-accent);
+            box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5);
+        }
+
+        summary.acordeon-header {
+            padding: 16px 18px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+
+        summary.acordeon-header::-webkit-details-marker { display: none; }
+        summary.acordeon-header:hover { background: var(--surface-hover); }
+
+        .acordeon-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding-right: 10px;
+        }
+
+        .acordeon-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .acordeon-sub {
+            font-size: 12px;
+            color: var(--accent-gold);
+            font-weight: 500;
+        }
+
+        .acordeon-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s;
+            flex-shrink: 0;
+        }
+
+        details[open] .acordeon-icon {
+            transform: rotate(180deg);
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-gold);
+        }
+
+        .acordeon-body {
+            padding: 16px 18px 20px 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--surface-card);
+        }
+
+        .grid-opciones { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        @media (min-width: 420px) { .grid-opciones.dos-columnas { grid-template-columns: 1fr 1fr; } }
+
+        .opcion {
+            background: var(--surface-input); 
+            border: 1px solid var(--border-subtle); 
+            border-radius: 10px; 
+            padding: 12px 14px;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            transition: all 0.2s ease;
+        }
+        .opcion:hover { background: var(--surface-hover); border-color: rgba(245, 158, 11, 0.4); }
+        .opcion input { margin-right: 12px; width: 18px; height: 18px; accent-color: var(--accent-gold); cursor: pointer; }
+        .opcion span { font-size: 13.5px; font-weight: 500; color: var(--text-primary); }
+
+        .opcion-bloque-precio {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .badge-precio {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            background: rgba(245, 158, 11, 0.1);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        button, .btn-whatsapp { 
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark)); 
+            color: #0d0e12; 
+            font-weight: 700; 
+            border: none; 
+            padding: 16px; 
+            width: 100%; 
+            font-size: 15px; 
+            border-radius: var(--radius-inner); 
+            cursor: pointer; 
+            margin-top: 10px; 
+            transition: all 0.25s ease; 
+            box-shadow: 0 8px 20px -4px var(--accent-glow);
+            display: block; 
+            text-align: center; 
+            text-decoration: none; 
+            box-sizing: border-box;
+            letter-spacing: 0.3px;
+        }
+        button:hover, .btn-whatsapp:hover { transform: translateY(-2px); opacity: 0.96; filter: brightness(1.05); }
+        button:active, .btn-whatsapp:active { transform: translateY(0); }
+
+        .btn-secundario { 
+            background: var(--surface-accordion); 
+            color: var(--text-primary); 
+            margin-bottom: 12px; 
+            border: 1px solid var(--border-subtle); 
+            box-shadow: none; 
+        }
+        .btn-secundario:hover {
+            border-color: var(--border-accent);
+            background: var(--surface-hover);
+        }
+
+        .btn-whatsapp { 
+            background: linear-gradient(135deg, #22c55e, #16a34a); 
+            color: white; 
+            margin-top: 22px; 
+            font-size: 16px; 
+            box-shadow: 0 8px 24px -4px var(--whatsapp-glow); 
+        }
+
+        #pantalla-gracias { display: none; }
+        #pantalla-pedido { display: block; }
+        
+        .resumen-caja { 
+            background: var(--surface-accordion); 
+            border: 1px solid var(--border-subtle); 
+            padding: 20px; 
+            border-radius: var(--radius-inner); 
+            font-size: 14px; 
+            margin-bottom: 20px; 
+        }
+        .total-destacado { 
+            font-size: 22px; 
+            color: var(--accent-gold); 
+            text-align: right; 
+            margin-top: 16px; 
+            font-weight: 800; 
+            border-top: 1px solid rgba(255,255,255,0.08); 
+            padding-top: 14px; 
+            letter-spacing: -0.5px;
+        }
+        
+        .btn-ubicacion { margin-top: 0; }
+        .btn-ubicacion:disabled { opacity: 0.6; cursor: wait; transform: none; }
+        .gps-estado { margin-top: 10px; font-size: 13.5px; line-height: 1.6; color: var(--text-secondary); }
+        .gps-ok {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--text-primary);
+            border-radius: var(--radius-inner);
+            padding: 12px 14px;
+        }
+        .gps-ok b { color: var(--accent-gold); }
+        .gps-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            border-radius: var(--radius-inner);
+            padding: 12px 14px;
+        }
+        .gps-aviso { color: #fcd34d; font-size: 12.5px; margin-top: 4px; display: block; }
+        .gps-link { background: none; border: none; box-shadow: none; width: auto; margin: 8px 0 0; padding: 0; color: var(--text-secondary); font-weight: 600; font-size: 12.5px; text-decoration: underline; }
+        .gps-link:hover { transform: none; filter: none; opacity: 1; color: var(--text-primary); }
+        .gps-nota { margin: 8px 0 0; font-size: 12px; color: var(--text-muted); }
+        .extra-fila {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: var(--surface-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+        }
+        .extra-fila:last-child { margin-bottom: 0; }
+        .extra-fila.activo { border-color: var(--border-accent); background: var(--surface-hover); }
+        .extra-info { display: flex; flex-direction: column; gap: 2px; }
+        .extra-nombre { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .extra-precio { font-size: 12px; color: var(--accent-gold); font-weight: 600; }
+        .extra-contador { display: flex; align-items: center; gap: 12px; }
+        button.extra-btn {
+            width: 40px; height: 40px; padding: 0; margin: 0;
+            font-size: 22px; line-height: 1; border-radius: 50%;
+            box-shadow: none; flex: none;
+        }
+        button.extra-btn:hover { transform: none; }
+        button.extra-btn.menos { background: var(--surface-accordion); color: var(--text-primary); border: 1px solid var(--border-subtle); }
+        .extra-cant { min-width: 22px; text-align: center; font-size: 18px; font-weight: 800; color: var(--text-primary); }
+        .resumen-natural {
+            background: var(--surface-accordion);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-inner);
+            padding: 16px;
+            margin-top: 18px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        .resumen-natural-titulo {
+            display: block;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .resumen-natural p { margin: 4px 0; }
+        .tarjeta-sandwich {
+            background: var(--surface-input);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-inner);
+            padding: 12px 14px;
+            margin-top: 10px;
+        }
+        .tarjeta-sandwich:first-child { margin-top: 0; }
+        .tarjeta-sandwich-titulo {
+            display: block;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .tarjeta-sandwich-lista {
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--text-secondary);
+        }
+
+        #contador-carrito { 
+            background: rgba(34, 197, 94, 0.1); 
+            color: var(--whatsapp-green); 
+            border: 1px solid rgba(34, 197, 94, 0.3); 
+            padding: 12px 16px; 
+            border-radius: var(--radius-inner); 
+            text-align: center; 
+            margin-bottom: 20px; 
+            font-weight: 600; 
+            font-size: 14px;
+            display: none; 
+        }
+
+        .acordeon-pedido { 
+            background: var(--surface-card); 
+            border-radius: var(--radius-inner); 
+            margin-top: 12px; 
+            border: 1px solid var(--border-subtle); 
+            overflow: hidden;
+        }
+        .acordeon-pedido summary { 
+            padding: 14px 16px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            list-style: none; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: var(--accent-gold);
+            font-size: 14px;
+        }
+        .acordeon-pedido summary::-webkit-details-marker { display: none; }
+        .acordeon-pedido summary::after { content: '▼'; font-size: 10px; transition: transform 0.3s ease; color: var(--text-muted); }
+        .acordeon-pedido[open] summary::after { transform: rotate(180deg); }
+        .acordeon-detalle { padding: 0 16px 14px 16px; color: var(--text-primary); font-size: 13px; line-height: 1.6; border-top: 1px solid rgba(255,255,255,0.05); }
+        .acordeon-detalle pre { font-family: inherit; margin: 8px 0; white-space: pre-wrap; color: var(--text-secondary); }
+
+        /* Custom Modal Alert */
+        #modal-alerta {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 20px;
+        }
+        .modal-contenido {
+            background: var(--surface-card);
+            border: 1px solid var(--border-accent);
+            padding: 24px;
+            border-radius: var(--radius-main);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+        .modal-contenido h4 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent-gold); }
+        .modal-contenido p { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; }
+
+        /* ====================================================================
+           TEMA "BRASA": carbón, brasa y cerveza. Solo estilos; la lógica no cambia.
+           ==================================================================== */
+        :root {
+            --bg-body: #14100d;
+            --surface-card: #1c1612;
+            --surface-accordion: #241d17;
+            --surface-input: #17120f;
+            --surface-hover: #2e251d;
+            --border-subtle: rgba(255, 237, 213, 0.10);
+            --border-accent: rgba(255, 106, 43, 0.55);
+            --accent-gold: #ff6a2b;
+            --accent-gold-dark: #e24f12;
+            --accent-glow: rgba(255, 106, 43, 0.22);
+            --text-primary: #fbf3e8;
+            --text-secondary: #bfae9b;
+            --text-muted: #8a7a69;
+            --cerveza: #f4b740;
+            --radius-main: 14px;
+            --radius-inner: 10px;
+            --display: 'Alfa Slab One', Georgia, 'Times New Roman', serif;
+        }
+        body { background-image: none; padding: 16px 10px 40px; }
+        .container { box-shadow: none; padding: 26px 20px 28px; border-color: rgba(255, 237, 213, 0.08); }
+
+        /* Cabecera: logotipo grande a la izquierda con una barra de brasa */
+        .header { text-align: left; margin-bottom: 26px; padding-bottom: 18px; border-bottom: 3px solid var(--accent-gold); }
+        .header h1 {
+            font-family: var(--display); font-weight: 400; font-size: 44px; line-height: 0.98;
+            text-transform: none; letter-spacing: 0; background: none;
+            -webkit-text-fill-color: var(--text-primary); color: var(--text-primary);
+        }
+        .header p { color: var(--text-secondary); font-size: 15px; line-height: 1.45; margin: 10px 0 0; max-width: 30ch; font-weight: 400; }
+
+        /* Títulos y etiquetas */
+        .seccion { background: transparent; border: 0; border-top: 1px solid var(--border-subtle); border-radius: 0; padding: 18px 0 4px; margin-bottom: 18px; }
+        .seccion h3 { font-family: var(--display); font-weight: 400; font-size: 20px; letter-spacing: 0.2px; }
+        .seccion p.desc { font-size: 14px; }
+        .campo-label { text-transform: none; letter-spacing: 0; font-size: 13.5px; font-weight: 600; color: var(--text-primary); }
+        input[type="text"], select { font-size: 16px; padding: 14px; border-radius: 10px; }
+
+        /* Acordeones: filas planas, la abierta se marca con una barra de brasa */
+        details.acordeon-bar { background: transparent; border: 0; border-top: 1px solid var(--border-subtle); border-radius: 0; margin-bottom: 0; overflow: visible; }
+        details.acordeon-bar:last-of-type { border-bottom: 1px solid var(--border-subtle); }
+        details.acordeon-bar[open] { box-shadow: none; border-top-color: var(--accent-gold); }
+        summary.acordeon-header { padding: 18px 4px; }
+        summary.acordeon-header:hover { background: transparent; }
+        summary.acordeon-header:hover .acordeon-title { color: var(--accent-gold); }
+        .acordeon-title { font-size: 16px; font-weight: 700; }
+        .acordeon-sub { color: var(--cerveza); font-weight: 600; }
+        .acordeon-icon { background: transparent; border: 1px solid var(--border-subtle); }
+        details[open] .acordeon-icon { background: var(--accent-gold); border-color: var(--accent-gold); color: #14100d; }
+        .acordeon-body { background: transparent; border-top: 0; padding: 4px 4px 22px; }
+
+        /* Opciones */
+        .opcion { border-radius: 8px; padding: 13px 14px; background: var(--surface-input); }
+        .opcion:hover { border-color: var(--accent-gold); background: var(--surface-hover); }
+        .opcion:has(input:checked) { border-color: var(--accent-gold); background: rgba(255, 106, 43, 0.10); }
+        .opcion input { accent-color: var(--accent-gold); }
+        .opcion span { font-size: 14.5px; font-weight: 500; }
+        .opcion .badge-precio, .badge-precio { color: var(--cerveza); background: transparent; padding: 0; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+        .extra-precio { color: var(--cerveza); font-weight: 600; }
+        .extra-fila.activo { border-color: var(--accent-gold); background: rgba(255, 106, 43, 0.08); }
+        .extra-fila { border-radius: 8px; }
+
+        /* Botones: planos, sin degradé ni brillo */
+        button, .btn-whatsapp { background: var(--accent-gold); color: #14100d; font-weight: 700; font-size: 16px; border-radius: 10px; box-shadow: none; letter-spacing: 0; padding: 16px; }
+        button:hover, .btn-whatsapp:hover { transform: none; filter: none; opacity: 1; background: #ff7d45; }
+        button:active, .btn-whatsapp:active { transform: scale(0.99); }
+        button:focus-visible, summary:focus-visible, .btn-whatsapp:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--cerveza); outline-offset: 2px; }
+        .btn-secundario { background: transparent; color: var(--text-primary); border: 1.5px solid var(--text-muted); }
+        .btn-secundario:hover { background: var(--surface-hover); border-color: var(--text-primary); }
+        .btn-whatsapp { background: #25b355; color: #06210f; margin-top: 22px; }
+        .btn-whatsapp:hover { background: #2bc761; }
+        button.extra-btn { background: var(--accent-gold); color: #14100d; }
+        button.extra-btn.menos { background: transparent; color: var(--text-primary); border: 1.5px solid var(--text-muted); }
+        .gps-link { background: none; color: var(--text-secondary); }
+        .gps-link:hover { background: none; color: var(--text-primary); }
+        .gps-ok b { color: var(--cerveza); }
+        .gps-ok { background: rgba(37, 179, 85, 0.10); border-color: rgba(37, 179, 85, 0.35); }
+
+        /* Resumen del pedido mientras se arma */
+        .resumen-natural { background: var(--surface-accordion); border: 1px solid var(--border-subtle); border-left: 4px solid var(--accent-gold); border-radius: 8px; }
+        .resumen-natural-titulo { text-transform: none; letter-spacing: 0; font-size: 15px; color: var(--text-primary); font-family: var(--display); font-weight: 400; }
+        .tarjeta-sandwich { border-radius: 8px; }
+        #contador-carrito { color: #6ee7a0; border-radius: 8px; }
+        .modal-contenido { border-radius: 12px; }
+        .modal-contenido h4 { font-family: var(--display); font-weight: 400; font-size: 20px; color: var(--text-primary); }
+
+        /* LA COMANDA: la pantalla de confirmación es un ticket de cocina */
+        #pantalla-gracias .header h1 { font-size: 36px; }
+        .resumen-caja {
+            --paper: #efe6d2;
+            --surface-card: #e6dcc4; --surface-accordion: #e6dcc4; --surface-input: #e6dcc4; --surface-hover: #ddd2b8;
+            --text-primary: #231a12; --text-secondary: #5a4a3a; --text-muted: #7a6a58;
+            --accent-gold: #b83c0a; --border-subtle: rgba(35, 26, 18, 0.22);
+            position: relative; background: var(--paper); color: var(--text-primary);
+            border: 0; border-radius: 3px 3px 0 0; padding: 22px 18px 20px; margin-bottom: 30px;
+            box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.8);
+            background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(35, 26, 18, 0.05) 27px 28px);
+        }
+        .resumen-caja::after {
+            content: ''; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10' viewBox='0 0 20 10'%3E%3Cpolygon points='0,0 20,0 10,10' fill='%23efe6d2'/%3E%3C/svg%3E") repeat-x left top / 20px 10px;
+        }
+        .resumen-caja [style*="border-bottom"] { border-bottom: 2px dashed rgba(35, 26, 18, 0.35) !important; }
+        .resumen-caja .acordeon-pedido { background: transparent; border: 0; border-bottom: 1px dashed rgba(35, 26, 18, 0.3); border-radius: 0; }
+        .resumen-caja .acordeon-detalle { border-top: 0; }
+        .total-destacado { font-family: var(--display); font-weight: 400; font-size: 28px; border-top: 2px dashed rgba(35, 26, 18, 0.45); letter-spacing: 0; }
+        .resumen-caja .total-destacado { color: var(--text-primary); }
+
+        /* Cabecera con dibujo y combos a la vista */
+        .header { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        .header .header-txt { flex: 1 1 200px; min-width: 0; }
+        .header .sandwich-dibujo { width: 112px; height: auto; flex: none; margin-bottom: -4px; }
+        @media (max-width: 380px) { .header h1 { font-size: 38px; } .header .sandwich-dibujo { width: 70px; } }
+        #bar-menu { display: none; }
+        .combos-titulo { font-family: var(--display); font-weight: 400; font-size: 20px; margin: 0 0 4px; }
+        .combos-sub { margin: 0 0 14px; font-size: 14px; color: var(--text-secondary); }
+        .combos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+        button.combo {
+            text-align: left; background: var(--surface-input); color: var(--text-primary); margin: 0; padding: 14px 14px 13px;
+            border: 1.5px solid var(--border-subtle); border-radius: 12px; box-shadow: none; display: flex; flex-direction: column; gap: 2px; font-weight: 500;
+        }
+        button.combo:hover { background: var(--surface-hover); border-color: var(--accent-gold); }
+        button.combo .c-emoji { font-size: 26px; line-height: 1.1; }
+        button.combo .c-nombre { font-weight: 700; font-size: 15px; margin-top: 6px; }
+        button.combo .c-desc { font-size: 12.5px; color: var(--text-secondary); }
+        button.combo .c-precio { font-size: 19px; font-weight: 700; color: var(--cerveza); font-variant-numeric: tabular-nums; margin-top: 6px; }
+        button.combo.on { border-color: var(--accent-gold); background: rgba(255, 106, 43, 0.12); box-shadow: 0 0 0 1px var(--accent-gold) inset; }
+        button.combo { position: relative; }
+        button.combo.on::after { content: '✓'; position: absolute; top: 10px; right: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-gold); color: #14100d; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+        #repetir-bloque { margin-bottom: 22px; }
+        button.btn-repetir { margin: 0; background: transparent; color: var(--text-primary); border: 1.5px solid var(--accent-gold); font-size: 15px; text-align: left; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        button.btn-repetir:hover { background: rgba(255, 106, 43, 0.12); }
+        button.btn-repetir b { color: var(--cerveza); font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .repetir-nota { margin: 6px 2px 0; font-size: 12.5px; color: var(--text-muted); }
+
+        /* Pestañas Pedir / Info */
+        #nav-tabs { position: fixed; top: 0; left: 0; right: 0; z-index: 30; display: flex; justify-content: center; background: rgba(20, 16, 13, 0.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--border-subtle); }
+        #nav-tabs .nav-in { width: 100%; max-width: 540px; display: flex; gap: 0; padding: 0 10px; }
+        #nav-tabs button { flex: 1; background: transparent; color: var(--text-secondary); border: 0; border-bottom: 3px solid transparent; border-radius: 0; margin: 0; padding: 13px 8px 10px; font-size: 15px; font-weight: 700; }
+        #nav-tabs button.on { color: var(--text-primary); border-bottom-color: var(--accent-gold); }
+        #nav-tabs button:hover { background: transparent; color: var(--text-primary); }
+        body { padding-top: 62px; }
+        .tab-oculta { display: none !important; }
+        #pantalla-info { display: none; }
+        #pantalla-info.on { display: block; }
+        #pantalla-info h3 { font-family: var(--display); font-weight: 400; font-size: 20px; margin: 26px 0 10px; }
+        #pantalla-info h3:first-of-type { margin-top: 0; }
+        .info-pasos { list-style: none; counter-reset: paso; margin: 0; padding: 0; }
+        .info-pasos li { counter-increment: paso; display: flex; gap: 14px; padding: 12px 0; border-top: 1px solid var(--border-subtle); font-size: 15px; line-height: 1.45; }
+        .info-pasos li::before { content: counter(paso); font-family: var(--display); color: var(--accent-gold); font-size: 22px; line-height: 1.1; min-width: 20px; }
+        .info-tabla { width: 100%; border-collapse: collapse; font-size: 15px; }
+        .info-tabla td { padding: 11px 0; border-top: 1px solid var(--border-subtle); }
+        .info-tabla td:last-child { text-align: right; font-weight: 700; color: var(--cerveza); font-variant-numeric: tabular-nums; }
+        .info-nota { color: var(--text-secondary); font-size: 13.5px; line-height: 1.5; margin: 10px 0 0; }
+        #pantalla-info details { border-top: 1px solid var(--border-subtle); padding: 13px 0; }
+        #pantalla-info details:last-of-type { border-bottom: 1px solid var(--border-subtle); }
+        #pantalla-info summary { cursor: pointer; font-weight: 600; font-size: 15px; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+        #pantalla-info summary::-webkit-details-marker { display: none; }
+        #pantalla-info summary::after { content: '+'; color: var(--accent-gold); font-size: 20px; line-height: 1; }
+        #pantalla-info details[open] summary::after { content: '–'; }
+        #pantalla-info details p { margin: 10px 0 0; color: var(--text-secondary); font-size: 14.5px; line-height: 1.55; }
+        .info-dato { margin: 6px 0; font-size: 15px; line-height: 1.5; }
+        .info-dato b { color: var(--text-primary); }
+
+        /* Barra fija con el total mientras se arma el pedido */
+        body { padding-bottom: 96px; }
+        #barra-total {
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+            background: #f1e7d2; color: #231a12; border-top: 3px solid var(--accent-gold);
+            padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); display: none;
+            justify-content: center;
+        }
+        #barra-total .barra-in { width: 100%; max-width: 540px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        #barra-total small { display: block; font-size: 12.5px; color: #5a4a3a; line-height: 1.3; }
+        #barra-total b { font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+        #barra-total .barra-ir { width: auto; margin: 0; padding: 12px 18px; font-size: 15px; background: #231a12; color: #f1e7d2; white-space: nowrap; }
+        #barra-total .barra-ir:hover { background: #3a2c20; }
+        .datos-guardados { font-size: 12.5px; color: var(--text-muted); margin: -6px 0 14px; }
+        .datos-guardados button { background: none; color: var(--text-secondary); text-decoration: underline; width: auto; margin: 0; padding: 0; font-size: 12.5px; font-weight: 600; }
+        .datos-guardados button:hover { background: none; color: var(--text-primary); }
+
+        @media (prefers-reduced-motion: reduce) { .animar { animation: none; opacity: 1; } * { transition: none !important; } }
+    </style>
+</head>
+<body>
+
+<nav id="nav-tabs" aria-label="Secciones">
+    <div class="nav-in">
+        <button type="button" id="tab-pedir" class="on" onclick="mostrarTab('pedir')">🍖 Pedir</button>
+        <button type="button" id="tab-info" onclick="mostrarTab('info')">ℹ️ Envíos y ayuda</button>
+    </div>
+</nav>
+
+<div class="container animar" id="pantalla-pedido">
+    <div class="header">
+        <div class="header-txt">
+            <h1>Pork & Beef</h1>
+            <p>Bondiola a la cerveza. Armá tu pedido y lo confirmamos por WhatsApp.</p>
+        </div>
+        <svg class="sandwich-dibujo" viewBox="0 0 140 100" role="img" aria-label="Sándwich de bondiola en pan crocante">
+  <!-- pan de abajo -->
+  <path d="M6 66 Q6 96 38 96 H102 Q134 96 134 66 Z" fill="#c9792a"/>
+  <path d="M14 70 Q14 90 38 91 H102" fill="none" stroke="#e3a24f" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  <!-- relleno: bondiola en fetas -->
+  <g>
+    <path d="M10 66 Q8 52 24 50 Q40 48 52 54 Q58 64 40 70 H14 Z" fill="#8a4524"/>
+    <path d="M16 62 Q26 54 44 58" fill="none" stroke="#d9a08a" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M44 66 Q42 48 62 44 Q84 42 92 56 Q94 66 80 70 H50 Z" fill="#9b5530"/>
+    <path d="M52 58 Q66 48 84 54" fill="none" stroke="#e1b09b" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M84 68 Q82 50 102 46 Q124 46 130 60 Q130 68 118 70 H90 Z" fill="#8a4524"/>
+    <path d="M96 58 Q110 50 124 58" fill="none" stroke="#d9a08a" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M28 70 Q30 56 50 54 Q70 52 76 62 Q76 70 66 71 H34 Z" fill="#a85f36"/>
+    <path d="M36 64 Q50 58 66 63" fill="none" stroke="#efc3ad" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <!-- verduras: morrón, cebolla, zanahoria -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M18 48 Q30 36 44 46" stroke="#d6422a" stroke-width="5"/>
+    <path d="M52 44 Q66 32 82 42" stroke="#5fae4a" stroke-width="5"/>
+    <path d="M88 44 Q102 34 118 44" stroke="#d6422a" stroke-width="5"/>
+    <path d="M30 52 Q40 44 52 50" stroke="#f6e7c8" stroke-width="3"/>
+    <path d="M72 48 Q84 40 96 48" stroke="#f6e7c8" stroke-width="3"/>
+    <path d="M104 52 Q114 46 124 52" stroke="#f08a24" stroke-width="4"/>
+  </g>
+  <!-- pan de arriba con cortes -->
+  <path d="M6 36 Q4 8 70 6 Q136 8 134 36 Q70 28 6 36 Z" fill="#d98c35"/>
+  <path d="M14 28 Q18 14 70 12" fill="none" stroke="#f0b862" stroke-width="3.5" stroke-linecap="round"/>
+  <g stroke="#f6d08f" stroke-width="3" stroke-linecap="round"><path d="M38 14 L46 26"/><path d="M62 11 L70 25"/><path d="M86 13 L94 26"/><path d="M108 18 L114 28"/></g>
+</svg>
+    </div>
+
+    <div id="repetir-bloque" hidden>
+        <button type="button" class="btn-repetir" id="btn-repetir" onclick="repetirUltimo()"></button>
+        <p class="repetir-nota">Usa tu nombre, tu dirección y tu zona guardados. Podés revisarlo antes de mandarlo.</p>
+    </div>
+
+    <div id="combos-bloque">
+        <h2 class="combos-titulo">Elegí tu combo</h2>
+        <p class="combos-sub">Después lo armás a tu gusto: sin cebolla, con más queso, lo que quieras.</p>
+        <div class="combos" id="combos"></div>
+    </div>
+    
+    <div id="contador-carrito">🛒 Tenés productos en tu pedido.</div>
+
+    <!-- SECCIÓN DATOS CLIENTE -->
+    <div class="seccion" id="seccion-cliente">
+        <h3>1. Datos de Entrega</h3>
+        <p class="desc">Completá tus datos para coordinar el envío</p>
+        
+        <div class="campo-grupo">
+            <span class="campo-label">Nombre y Apellido</span>
+            <input type="text" id="nombreCliente" placeholder="Ej. Juan Pérez" autocomplete="name" autocapitalize="words" aria-label="Nombre y apellido">
+        </div>
+        
+        <div class="campo-grupo" id="bloque-zona">
+            <span class="campo-label" id="label-zona">Zona de Envío</span>
+            <select id="localidadEnvio" onchange="actualizarResumenCabecera()">
+                <option value="" data-nombre="" selected>Elegí tu zona…</option>
+                <option value="2000" data-nombre="San Fernando">San Fernando</option>
+                <option value="3000" data-nombre="San Isidro">San Isidro</option>
+                <option value="3000" data-nombre="Tigre">Tigre</option>
+            </select>
+        </div>
+
+        <div class="campo-grupo">
+            <span class="campo-label">Dirección Completa</span>
+            <input type="text" id="direccionCliente" placeholder="Calle, Número, Piso / Depto" autocomplete="street-address" aria-label="Dirección completa">
+        </div>
+
+        <div class="campo-grupo" id="bloque-gps" style="display:none;">
+            <span class="campo-label">Costo de envío exacto</span>
+            <button type="button" id="btnUbicacion" class="btn-ubicacion" onclick="usarUbicacion()">📍 Calcular mi envío con mi ubicación</button>
+            <div class="gps-estado" id="gps-estado"></div>
+            <p class="gps-nota">Usamos tu ubicación solo para calcular el envío y llegar a tu puerta.</p>
+        </div>
+    </div>
+
+    <!-- ACORDEÓN: TIPO DE MENÚ -->
+    <details class="acordeon-bar" id="bar-menu" open>
+        <summary class="acordeon-header">
+            <div class="acordeon-title-wrap">
+                <span class="acordeon-title">🍔 Seleccionar Menú</span>
+                <span class="acordeon-sub" id="sub-menu">Seleccionado: 🔥 2 x 1 Con Papas ($16.000)</span>
+            </div>
+            <div class="acordeon-icon">▲</div>
+        </summary>
+        <div class="acordeon-body">
+            <div class="grid-opciones">
+                <label class="opcion">
+                    <input type="radio" name="tipoMenu" value="2x1 Con papas" data-precio="16000" checked onclick="actualizarMenu()"> 
+                    <div class="opcion-bloque-precio">
+                        <span>🔥 2 x 1 Con Papas</span>
+                        <span class="badge-precio">$16.000</span>
+                    </div>
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="tipoMenu" value="2x1 Sin papas" data-precio="14000" onclick="actualizarMenu()"> 
+                    <div class="opcion-bloque-precio">
+                        <span>🥪 2 x 1 Sin Papas</span>
+                        <span class="badge-precio">$14.000</span>
+                    </div>
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="tipoMenu" value="1 Sándwich Con papas" data-precio="11000" onclick="actualizarMenu()"> 
+                    <div class="opcion-bloque-precio">
+                        <span>🍟 1 Sándwich Con Papas</span>
+                        <span class="badge-precio">$11.000</span>
+                    </div>
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="tipoMenu" value="1 Sándwich Sin papas" data-precio="9500" onclick="actualizarMenu()"> 
+                    <div class="opcion-bloque-precio">
+                        <span>🥖 1 Sándwich Sin Papas</span>
+                        <span class="badge-precio">$9.500</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </details>
+
+    <!-- ACORDEÓN: MODALIDAD DE ARMADO -->
+    <details class="acordeon-bar" id="seccion-modo-armado" open>
+        <summary class="acordeon-header">
+            <div class="acordeon-title-wrap">
+                <span class="acordeon-title">⚙️ Modalidad de Armado</span>
+                <span class="acordeon-sub" id="sub-modo">Ambos sándwiches iguales</span>
+            </div>
+            <div class="acordeon-icon">▲</div>
+        </summary>
+        <div class="acordeon-body">
+            <div class="grid-opciones dos-columnas">
+                <label class="opcion">
+                    <input type="radio" name="modoArmado" value="iguales" checked onclick="cambiarModoArmado()"> 
+                    <span>Ambos Iguales</span>
+                </label>
+                <label class="opcion">
+                    <input type="radio" name="modoArmado" value="diferentes" onclick="cambiarModoArmado()"> 
+                    <span>Armar Diferentes</span>
+                </label>
+            </div>
+        </div>
+    </details>
+
+    <!-- BLOQUE: AMBOS IGUALES / INDIVIDUAL -->
+    <div id="bloque-iguales">
+        <!-- ACORDEÓN VEGETALES -->
+        <details class="acordeon-bar">
+            <summary class="acordeon-header">
+                <div class="acordeon-title-wrap">
+                    <span class="acordeon-title" id="titulo-veg">🥬 Vegetales</span>
+                    <span class="acordeon-sub" id="sub-veg">Incluye: zanahoria, morrón y cebolla</span>
+                </div>
+                <div class="acordeon-icon">▼</div>
+            </summary>
+            <div class="acordeon-body">
+                <p class="desc">Por defecto el sándwich lleva zanahoria, morrón y cebolla. Marca lo que prefieras SACAR:</p>
+                <div class="grid-opciones dos-columnas">
+                    <label class="opcion"><input type="checkbox" name="veg" value="Sin Zanahoria" onchange="actualizarResumenCabecera()"> <span>Sin Zanahoria</span></label>
+                    <label class="opcion"><input type="checkbox" name="veg" value="Sin Morrón" onchange="actualizarResumenCabecera()"> <span>Sin Morrón</span></label>
+                    <label class="opcion"><input type="checkbox" name="veg" value="Sin Cebolla" onchange="actualizarResumenCabecera()"> <span>Sin Cebolla</span></label>
+                </div>
+            </div>
+        </details>
+
+        <!-- ACORDEÓN SALSAS -->
+        <details class="acordeon-bar">
+            <summary class="acordeon-header">
+                <div class="acordeon-title-wrap">
+                    <span class="acordeon-title" id="titulo-salsas">🥫 Salsas & Aderezos</span>
+                    <span class="acordeon-sub" id="sub-salsa">Sin salsa (elegí si querés agregar)</span>
+                </div>
+                <div class="acordeon-icon">▲</div>
+            </summary>
+            <div class="acordeon-body">
+                <div class="grid-opciones dos-columnas">
+                    <label class="opcion"><input type="checkbox" name="salsa" value="Salsa Porkis" onchange="actualizarResumenCabecera()"> <span>Salsa Porkis</span></label>
+                    <label class="opcion"><input type="checkbox" name="salsa" value="Criolla" onchange="actualizarResumenCabecera()"> <span>Salsa Criolla</span></label>
+                    <label class="opcion"><input type="checkbox" name="salsa" value="Chimichurri" onchange="actualizarResumenCabecera()"> <span>Chimichurri</span></label>
+                </div>
+            </div>
+        </details>
+
+        <!-- ACORDEÓN QUESOS -->
+        <details class="acordeon-bar">
+            <summary class="acordeon-header">
+                <div class="acordeon-title-wrap">
+                    <span class="acordeon-title" id="titulo-quesos">🧀 Agregado de Queso</span>
+                    <span class="acordeon-sub" id="sub-queso">Sin queso extra (elegí si querés agregar)</span>
+                </div>
+                <div class="acordeon-icon">▲</div>
+            </summary>
+            <div class="acordeon-body">
+                <div class="grid-opciones dos-columnas">
+                    <label class="opcion"><input type="checkbox" name="queso" value="Cheddar" onchange="actualizarResumenCabecera()"> <span>Cheddar</span></label>
+                    <label class="opcion"><input type="checkbox" name="queso" value="Mozzarella" onchange="actualizarResumenCabecera()"> <span>Mozzarella</span></label>
+                    <label class="opcion"><input type="checkbox" name="queso" value="Provoleta" onchange="actualizarResumenCabecera()"> <span>Provoleta</span></label>
+                </div>
+            </div>
+        </details>
+
+        <!-- ACORDEÓN PAPAS -->
+        <details class="acordeon-bar seccion-papas-contenedor">
+            <summary class="acordeon-header">
+                <div class="acordeon-title-wrap">
+                    <span class="acordeon-title">🍟 Guarnición de Papas</span>
+                    <span class="acordeon-sub" id="sub-papas">Con Sal</span>
+                </div>
+                <div class="acordeon-icon">▲</div>
+            </summary>
+            <div class="acordeon-body">
+                <div class="grid-opciones dos-columnas">
+                    <label class="opcion"><input type="radio" name="papas_iguales" value="Con sal" checked onclick="actualizarResumenCabecera()"> <span>Con Sal</span></label>
+                    <label class="opcion"><input type="radio" name="papas_iguales" value="Sin sal" onclick="actualizarResumenCabecera()"> <span>Sin Sal</span></label>
+                    <label class="opcion"><input type="radio" name="papas_iguales" value="Sazonado especial" onclick="actualizarResumenCabecera()"> <span>Sazonado Especial</span></label>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <!-- BLOQUE: DIFERENTES (PARA PROMO 2x1) -->
+    <div id="bloque-diferentes" style="display: none;">
+        <!-- ACORDEÓN SÁNDWICH A -->
+        <details class="acordeon-bar" open>
+            <summary class="acordeon-header">
+                <div class="acordeon-title-wrap">
+                    <span class="acordeon-title">🥪 Sándwich A (Personalizado)</span>
+                    <span class="acordeon-sub" id="sub-sand-a">Configurando preferencias</span>
+                </div>
+                <div class="acordeon-icon">▲</div>
+            </summary>
+            <div class="acordeon-body">
+                <span class="campo-label">Vegetales a Excluir</span>
+                <div class="grid-opciones dos-columnas" style="margin-bottom: 14px;">
+                    <label class="opcion"><input type="checkbox" name="veg_a" value="Sin Zanahoria" onchange="actualizarResumenCabecera()"> <span>Sin Zanahoria</span></label>
+                    <label class="opcion"><input type="checkbox" name="veg_a" value="Sin Morrón" onchange="actualizarResumenCabecera()"> <span>Sin Morrón</span></label>
+                    <label class="opcion"><input type="checkbox" name="veg_a" value="Sin Cebolla" onchange="actualizarResumenCabecera()"> <span>Sin Cebolla</span></label>
+                </div>
+
+                <span class="campo-label">Salsas</span>
+                <div class="grid-opciones dos-columnas" style="margin-bottom: 14px;">
+                    <label class="opcion"><input type="checkbox" name="salsa_a" value="Salsa Porkis" onchange="actualizarResumenCabecera()"> <span>Salsa Porkis</span></label>
+                    <label class="opcion"><input type="checkbox" name="salsa_a" value="Criolla" onchange="actualizarResumenCabecera()"> <span>Salsa Criolla</span></label>
+                    <label class="opcion"><input type="checkbox" name="salsa_a" value="Chimichurri" onchange="actualizarResumenCabecera()"> <span>Chimichurri</span></label>
+                </div>
+
+                <span class="campo-label">Quesos</span>
+                <div class="grid-opciones dos-columnas" style="margin-bottom: 14px;">
+                    <label class="opcion"><input type="checkbox" name="queso_a" value="Cheddar" onchange="actualizarResumenCabecera()"> <span>Cheddar</span></label>
+                    <label class="opcion"><input type="checkbox" name="queso_a" value="Mozzarella" onchange="actualizarResumenCabecera()"> <span>Mozzarella</span></label>
+                    <label class="opcion"><input type="checkbox" name="queso_a" value="Provoleta" onchange="actualizarResumenCabecera()"> <span>Provoleta</span></label>
+                </div>
+
+                <div class="seccion-papas-contenedor">
+                    <span class="campo-label">Papas Sándwich A</span>
+                    <div class="grid-opciones dos-columnas">
+                        <label class="opcion"><input type="radio" name="papas_a" value="Con sal" checked onclick="actualizarResumenCabecera()"> <span>Con Sal</span></label>
+                        <label class="opcion"><input type="radio" name="papas_a" value="Sin sal" onclick="actualizarResumenCabecera()"> <span>Sin Sal</span></label>
+                        <label class="opcion"><input type="radio" name="papas_a" value="Sazonado especial" onclick="actualizarResumenCabecera()"> <span>Sazonado Especial</span></label>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- ACORDEÓN SÁNDWICH B -->
+        <details class="acordeon-bar" open>
+            <summary class="acordeon-header">
+                <div class="acordeon-title-wrap">
+                    <span class="acordeon-title">🥪 Sándwich B (Personalizado)</span>
+                    <span class="acordeon-sub" id="sub-sand-b">Configurando preferencias</span>
+                </div>
+                <div class="acordeon-icon">▲</div>
+            </summary>
+            <div class="acordeon-body">
+                <span class="campo-label">Vegetales a Excluir</span>
+                <div class="grid-opciones dos-columnas" style="margin-bottom: 14px;">
+                    <label class="opcion"><input type="checkbox" name="veg_b" value="Sin Zanahoria" onchange="actualizarResumenCabecera()"> <span>Sin Zanahoria</span></label>
+                    <label class="opcion"><input type="checkbox" name="veg_b" value="Sin Morrón" onchange="actualizarResumenCabecera()"> <span>Sin Morrón</span></label>
+                    <label class="opcion"><input type="checkbox" name="veg_b" value="Sin Cebolla" onchange="actualizarResumenCabecera()"> <span>Sin Cebolla</span></label>
+                </div>
+
+                <span class="campo-label">Salsas</span>
+                <div class="grid-opciones dos-columnas" style="margin-bottom: 14px;">
+                    <label class="opcion"><input type="checkbox" name="salsa_b" value="Salsa Porkis" onchange="actualizarResumenCabecera()"> <span>Salsa Porkis</span></label>
+                    <label class="opcion"><input type="checkbox" name="salsa_b" value="Criolla" onchange="actualizarResumenCabecera()"> <span>Salsa Criolla</span></label>
+                    <label class="opcion"><input type="checkbox" name="salsa_b" value="Chimichurri" onchange="actualizarResumenCabecera()"> <span>Chimichurri</span></label>
+                </div>
+
+                <span class="campo-label">Quesos</span>
+                <div class="grid-opciones dos-columnas" style="margin-bottom: 14px;">
+                    <label class="opcion"><input type="checkbox" name="queso_b" value="Cheddar" onchange="actualizarResumenCabecera()"> <span>Cheddar</span></label>
+                    <label class="opcion"><input type="checkbox" name="queso_b" value="Mozzarella" onchange="actualizarResumenCabecera()"> <span>Mozzarella</span></label>
+                    <label class="opcion"><input type="checkbox" name="queso_b" value="Provoleta" onchange="actualizarResumenCabecera()"> <span>Provoleta</span></label>
+                </div>
+
+                <div class="seccion-papas-contenedor">
+                    <span class="campo-label">Papas Sándwich B</span>
+                    <div class="grid-opciones dos-columnas">
+                        <label class="opcion"><input type="radio" name="papas_b" value="Con sal" checked onclick="actualizarResumenCabecera()"> <span>Con Sal</span></label>
+                        <label class="opcion"><input type="radio" name="papas_b" value="Sin sal" onclick="actualizarResumenCabecera()"> <span>Sin Sal</span></label>
+                        <label class="opcion"><input type="radio" name="papas_b" value="Sazonado especial" onclick="actualizarResumenCabecera()"> <span>Sazonado Especial</span></label>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <!-- SECCIÓN CANTIDAD -->
+    <div class="seccion">
+        <h3>Cantidad de Promos / Combos</h3>
+        <p class="desc">¿Cuántas unidades con esta misma configuración deseas incluir?</p>
+        <select id="cantidadSandwich">
+            <option value="1">1 Unidad</option>
+            <option value="2">2 Unidades</option>
+            <option value="3">3 Unidades</option>
+            <option value="4">4 Unidades</option>
+            <option value="5">5 Unidades</option>
+        </select>
+    </div>
+
+    <!-- SECCIÓN EXTRAS -->
+    <div class="seccion" id="seccion-extras">
+        <h3>➕ Extras para tus papas</h3>
+        <p class="desc">Sumá las porciones que quieras con el +. Se cobran aparte del combo.</p>
+        <div class="extra-fila" id="extra-fila-papas">
+            <div class="extra-info">
+                <span class="extra-nombre">🍟 Porción de papas extra</span>
+                <span class="extra-precio" id="extra-precio-papas"></span>
+            </div>
+            <div class="extra-contador">
+                <button type="button" class="extra-btn menos" onclick="cambiarExtra('papas', -1)" aria-label="Quitar Porción de papas extra">−</button>
+                <span class="extra-cant" id="extra-cant-papas">0</span>
+                <button type="button" class="extra-btn" onclick="cambiarExtra('papas', 1)" aria-label="Sumar Porción de papas extra">+</button>
+            </div>
+        </div>
+        <div class="extra-fila" id="extra-fila-bacon">
+            <div class="extra-info">
+                <span class="extra-nombre">🥓 Bacon extra para las papas</span>
+                <span class="extra-precio" id="extra-precio-bacon"></span>
+            </div>
+            <div class="extra-contador">
+                <button type="button" class="extra-btn menos" onclick="cambiarExtra('bacon', -1)" aria-label="Quitar Bacon extra para las papas">−</button>
+                <span class="extra-cant" id="extra-cant-bacon">0</span>
+                <button type="button" class="extra-btn" onclick="cambiarExtra('bacon', 1)" aria-label="Sumar Bacon extra para las papas">+</button>
+            </div>
+        </div>
+        <div class="extra-fila" id="extra-fila-cheddar">
+            <div class="extra-info">
+                <span class="extra-nombre">🧀 Cheddar extra para las papas</span>
+                <span class="extra-precio" id="extra-precio-cheddar"></span>
+            </div>
+            <div class="extra-contador">
+                <button type="button" class="extra-btn menos" onclick="cambiarExtra('cheddar', -1)" aria-label="Quitar Cheddar extra para las papas">−</button>
+                <span class="extra-cant" id="extra-cant-cheddar">0</span>
+                <button type="button" class="extra-btn" onclick="cambiarExtra('cheddar', 1)" aria-label="Sumar Cheddar extra para las papas">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="resumen-natural" id="resumenNatural">
+        <span class="resumen-natural-titulo">👀 Así va tu pedido</span>
+        <div id="resumenNaturalTexto"></div>
+    </div>
+
+    <button onclick="agregarAlCarrito(false)" class="btn-secundario">➕ Agregar este combo y armar otro distinto</button>
+    <button onclick="agregarAlCarrito(true)">✅ Finalizar y Confirmar Pedido</button>
+</div>
+
+<div class="container" id="pantalla-info">
+    <div class="header">
+        <h1>Envíos y ayuda</h1>
+        <p>Todo lo que tenés que saber antes de pedir.</p>
+    </div>
+
+    <h3>Cómo pedir</h3>
+    <ol class="info-pasos">
+        <li>Cargá tu nombre y tu dirección. Elegí tu zona o calculá el envío con tu ubicación.</li>
+        <li>Armá tu menú: sacá lo que no quieras y sumá extras si querés.</li>
+        <li>Mandá el pedido por WhatsApp. Te escribimos para confirmarlo.</li>
+    </ol>
+
+    <h3>Costo de envío</h3>
+    <table class="info-tabla" id="info-zonas"></table>
+    <p class="info-nota">Si tocás «Calcular mi envío con mi ubicación», el costo se calcula según la distancia real hasta tu puerta, hasta unos 25 km del local.</p>
+
+    <h3>Extras</h3>
+    <table class="info-tabla" id="info-extras"></table>
+    <p class="info-nota">Los extras se suman aparte del combo.</p>
+
+    <div id="info-local"></div>
+
+    <h3>Preguntas frecuentes</h3>
+    <details><summary>¿Puedo sacar ingredientes?</summary><p>Sí. En cada menú podés quitar vegetales, elegir salsas y sumar queso. Abajo del pedido ves un resumen con ✅ lo que lleva y ❌ lo que no.</p></details>
+    <details><summary>¿Para qué piden mi ubicación?</summary><p>Solo para calcular el envío y llegar a tu puerta. No la usamos para nada más. Si preferís no compartirla, elegí tu zona de la lista.</p></details>
+    <details><summary>¿El pedido queda confirmado al enviarlo?</summary><p>Tu pedido nos llega por WhatsApp y te escribimos para confirmarlo. Si necesitás cambiar algo, avisanos en ese mismo chat.</p></details>
+    <details><summary>¿Puedo pedir más de un combo distinto?</summary><p>Sí. Armá el primero, tocá «Agregar este combo y armar otro distinto» y seguí con el siguiente. Al final ves todo junto.</p></details>
+
+    <button type="button" onclick="mostrarTab('pedir')" style="margin-top:26px">Armar mi pedido</button>
+</div>
+
+<div id="barra-total" aria-live="polite">
+    <div class="barra-in">
+        <div><small id="barra-detalle">Armá tu pedido</small><b id="barra-monto">$0</b></div>
+        <button type="button" class="barra-ir" onclick="irAFinalizar()">Ver pedido ↓</button>
+    </div>
+</div>
+
+<div class="container" id="pantalla-gracias">
+    <div class="header">
+        <h1>Tu comanda</h1>
+        <p>Revisá el detalle y mandalo por WhatsApp para confirmar.</p>
+    </div>
+    
+    <div class="resumen-caja" id="cajaResumen"></div>
+
+    <a id="btnWhatsappLink" class="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer">📲 Mandar el pedido por WhatsApp</a>
+</div>
+
+<!-- MODAL ALERTA CUSTOM -->
+<div id="modal-alerta">
+    <div class="modal-contenido">
+        <h4>Falta completar algo</h4>
+        <p id="modal-texto">Completá tus datos de envío para continuar.</p>
+        <button onclick="cerrarModal()" style="margin-top: 0;">Entendido</button>
+    </div>
+</div>
+
+<script>
+    let carrito = [];
+
+    // ---------- EXTRAS (precios en pesos argentinos; cambialos acá) ----------
+    const EXTRAS_CATALOGO = [
+        { id: 'papas',   nombre: 'Porción de papas extra',      precio: 1500 },
+        { id: 'bacon',   nombre: 'Bacon extra para las papas',  precio: 1000 },
+        { id: 'cheddar', nombre: 'Cheddar extra para las papas', precio: 1500 }
+    ];
+    const extras = { papas: 0, bacon: 0, cheddar: 0 };
+    const MAX_EXTRA = 20;
+
+    function formatoPesos(n) { return '$' + new Intl.NumberFormat('es-AR').format(n); }
+
+    function cambiarExtra(id, delta) {
+        extras[id] = Math.max(0, Math.min(MAX_EXTRA, (extras[id] || 0) + delta));
+        pintarExtras();
+        actualizarResumenCabecera();
+    }
+
+    function pintarExtras() {
+        EXTRAS_CATALOGO.forEach(x => {
+            const cant = extras[x.id] || 0;
+            document.getElementById('extra-cant-' + x.id).innerText = cant;
+            document.getElementById('extra-precio-' + x.id).innerText =
+                cant > 0 ? `${cant} x ${formatoPesos(x.precio)} = ${formatoPesos(cant * x.precio)}` : `${formatoPesos(x.precio)} c/u`;
+            document.getElementById('extra-fila-' + x.id).classList.toggle('activo', cant > 0);
+        });
+    }
+
+    function resetExtras() {
+        EXTRAS_CATALOGO.forEach(x => { extras[x.id] = 0; });
+        pintarExtras();
+    }
+
+    function extrasSeleccionados() {
+        return EXTRAS_CATALOGO.filter(x => extras[x.id] > 0);
+    }
+
+    function totalExtras() {
+        return extrasSeleccionados().reduce((acc, x) => acc + extras[x.id] * x.precio, 0);
+    }
+
+    // ============================================================
+    //  ENVÍO POR UBICACIÓN (GPS)
+    //  Costo = distancia de ida y vuelta x nafta, + recargo por tiempo, + fijo, redondeado para arriba.
+    // ============================================================
+    // Ubicación del local: se carga sola desde tu planilla (la configurás en el panel, botón "Ubicación del local").
+    // Mientras no esté cargada, se usan solo las zonas fijas.
+    const LOCAL = { lat: null, lng: null };
+    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbw-Z44SDZTsHFdt9W07pTcn7WiOImW84ZmEqG_sIl1BFPU5LrwV43fEfLxBzDmSph1GDw/exec";
+    const PRECIO_NAFTA = 2100;       // $ por litro de nafta
+    const CONSUMO_L_100KM = 8;       // litros cada 100 km
+    const RECARGO_TIEMPO = 0.80;     // 80% extra por tiempo y desgaste
+    const FIJO_POR_VIAJE = 500;      // $ fijos por cada viaje
+    const REDONDEO = 100;            // redondea para arriba de a $100
+    const MAX_KM_ENVIO = 25;         // más lejos que esto no se cobra por ubicación (evita precios absurdos)
+    const FACTOR_RUTA = 1.3;         // si falla el mapa: distancia en línea recta x 1,3
+
+    let envioGps = null;             // { costo, km, metodo, lat, lng, link, precision }
+
+    const gid = id => document.getElementById(id);
+
+    function calcularEnvio(km) {
+        const nafta = km * 2 * (CONSUMO_L_100KM / 100) * PRECIO_NAFTA;
+        const bruto = nafta * (1 + RECARGO_TIEMPO) + FIJO_POR_VIAJE;
+        return Math.ceil((bruto - 0.0001) / REDONDEO) * REDONDEO;
+    }
+
+    function formatoKm(km) { return km.toFixed(1).replace('.', ','); }
+
+    function haversineKm(lat1, lng1, lat2, lng2) {
+        const rad = Math.PI / 180;
+        const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
+        const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLng / 2) ** 2;
+        return 2 * 6371 * Math.asin(Math.sqrt(a));
+    }
+
+    async function distanciaPorRuta(lat1, lng1, lat2, lng2) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 6000);
+        try {
+            const url = `https://router.project-osrm.org/route/v1/driving/${lng1},${lat1};${lng2},${lat2}?overview=false`;
+            const r = await fetch(url, { signal: ctrl.signal });
+            const j = await r.json();
+            if (j.code === 'Ok' && j.routes && j.routes[0]) return j.routes[0].distance / 1000;
+            throw new Error('sin ruta');
+        } finally {
+            clearTimeout(t);
+        }
+    }
+
+    async function medirDistancia(lat, lng) {
+        try {
+            return { km: await distanciaPorRuta(LOCAL.lat, LOCAL.lng, lat, lng), metodo: 'ruta' };
+        } catch (e) {
+            return { km: haversineKm(LOCAL.lat, LOCAL.lng, lat, lng) * FACTOR_RUTA, metodo: 'estimado' };
+        }
+    }
+
+    function localValido(g) {
+        return g && typeof g.lat === 'number' && typeof g.lng === 'number' && isFinite(g.lat) && isFinite(g.lng);
+    }
+
+    async function cargarLocal() {
+        // 1) Lo último que se supo, para que el botón aparezca enseguida
+        try {
+            const g = JSON.parse(localStorage.getItem('pb_local') || 'null');
+            if (localValido(g)) { LOCAL.lat = g.lat; LOCAL.lng = g.lng; iniciarEnvioGps(); }
+        } catch (e) {}
+        // 2) Lo que dice la planilla ahora
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 10000);
+        try {
+            const r = await fetch(`${URL_SCRIPT}?accion=local&_=${Date.now()}`, { signal: ctrl.signal });
+            const j = await r.json();
+            if (j && j.ok && localValido(j)) {
+                LOCAL.lat = j.lat; LOCAL.lng = j.lng;
+                try { localStorage.setItem('pb_local', JSON.stringify({ lat: j.lat, lng: j.lng })); } catch (e) {}
+                iniciarEnvioGps();
+            }
+        } catch (e) {
+            // sin conexión con la planilla: se sigue con lo que haya (o con zonas fijas)
+        } finally {
+            clearTimeout(t);
+        }
+    }
+
+    function iniciarEnvioGps() {
+        if (LOCAL.lat === null || LOCAL.lng === null) return;
+        gid('bloque-gps').style.display = 'block';
+        gid('label-zona').innerText = 'O elegí tu zona (si no querés compartir tu ubicación)';
+    }
+
+    function pintarEnvioGps() {
+        const est = gid('gps-estado');
+        const zona = gid('bloque-zona');
+        if (!envioGps) { zona.style.display = 'block'; return; }
+        zona.style.display = 'none';
+        const aprox = envioGps.metodo === 'estimado' ? ' (distancia estimada)' : '';
+        const aviso = envioGps.precision > 1000
+            ? `<span class="gps-aviso">⚠️ Tu ubicación es aproximada (±${Math.round(envioGps.precision)} m). Si la dirección no coincide, avisanos por WhatsApp.</span>` : '';
+        est.innerHTML = `<div class="gps-ok">✅ <b>Ubicación detectada</b><br>📏 Distancia: ≈ ${formatoKm(envioGps.km)} km${aprox}<br>🚚 Envío: <b>${formatoPesos(envioGps.costo)}</b>${aviso}
+            <br><button type="button" class="gps-link" onclick="quitarUbicacion()">Usar una zona fija en vez de mi ubicación</button></div>`;
+    }
+
+    function quitarUbicacion() {
+        envioGps = null;
+        gid('gps-estado').innerHTML = '';
+        gid('btnUbicacion').innerText = '📍 Calcular mi envío con mi ubicación';
+        pintarEnvioGps();
+    }
+
+    function mostrarErrorGps(msg) {
+        gid('gps-estado').innerHTML = `<div class="gps-error">${msg}</div>`;
+        gid('btnUbicacion').disabled = false;
+        gid('btnUbicacion').innerText = '📍 Probar de nuevo con mi ubicación';
+    }
+
+    function usarUbicacion() {
+        const btn = gid('btnUbicacion');
+        if (!navigator.geolocation) {
+            mostrarErrorGps('Tu navegador no permite usar la ubicación. Elegí tu zona más abajo.');
+            return;
+        }
+        btn.disabled = true;
+        btn.innerText = '⏳ Buscando tu ubicación...';
+        gid('gps-estado').innerHTML = '';
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            try {
+                const lat = pos.coords.latitude, lng = pos.coords.longitude;
+                const dist = await medirDistancia(lat, lng);
+                if (!isFinite(dist.km) || dist.km > MAX_KM_ENVIO) {
+                    envioGps = null;
+                    pintarEnvioGps();
+                    mostrarErrorGps(`Tu ubicación está a unos ${isFinite(dist.km) ? Math.round(dist.km) : '?'} km de nuestro local, muy lejos para calcular el envío automático. Si pedís para una dirección dentro de nuestra zona, elegí tu zona más abajo.`);
+                    return;
+                }
+                envioGps = {
+                    costo: calcularEnvio(dist.km),
+                    km: dist.km,
+                    metodo: dist.metodo,
+                    lat, lng,
+                    precision: pos.coords.accuracy || 0,
+                    link: `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(6)},${lng.toFixed(6)}`
+                };
+                btn.disabled = false;
+                btn.innerText = '🔄 Volver a calcular con mi ubicación';
+                pintarEnvioGps();
+            } catch (e) {
+                mostrarErrorGps('No pudimos calcular el envío. Elegí tu zona más abajo.');
+            }
+        }, (err) => {
+            const msgs = {
+                1: 'No nos diste permiso para ver tu ubicación. Podés elegir tu zona más abajo, o activar el permiso en tu navegador y probar de nuevo.',
+                2: 'No pudimos detectar tu ubicación. Elegí tu zona más abajo.',
+                3: 'Tardó demasiado en detectar tu ubicación. Probá de nuevo o elegí tu zona más abajo.'
+            };
+            mostrarErrorGps(msgs[err.code] || msgs[2]);
+        }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+    }
+
+    function mostrarModal(texto) {
+        document.getElementById("modal-texto").innerText = texto;
+        document.getElementById("modal-alerta").style.display = "flex";
+    }
+
+    function cerrarModal() {
+        document.getElementById("modal-alerta").style.display = "none";
+    }
+
+    function actualizarResumenCabecera() {
+        const menuElem = document.querySelector('input[name="tipoMenu"]:checked');
+        if (!menuElem) return;
+
+        const menuSeleccionado = menuElem.value;
+        const precioFormatted = new Intl.NumberFormat('es-AR').format(menuElem.getAttribute('data-precio'));
+        document.getElementById("sub-menu").innerText = `Seleccionado: ${menuSeleccionado} ($${precioFormatted})`;
+
+        const modoElem = document.querySelector('input[name="modoArmado"]:checked');
+        if (modoElem) {
+            document.getElementById("sub-modo").innerText = modoElem.value === 'iguales' ? 'Ambos sándwiches iguales' : 'Configuración individual Sándwich A y B';
+        }
+
+        // Subtítulos para opciones simples / iguales
+        const vegSel = obtenerArraySeleccionados('input[name="veg"]');
+        document.getElementById("sub-veg").innerText = vegSel.length > 0 ? vegSel.join(', ') : 'Sin modificaciones (Completo)';
+
+        const salsaSel = obtenerArraySeleccionados('input[name="salsa"]');
+        document.getElementById("sub-salsa").innerText = salsaSel.length > 0 ? salsaSel.join(', ') : 'Ninguna seleccionada';
+
+        const quesoSel = obtenerArraySeleccionados('input[name="queso"]');
+        document.getElementById("sub-queso").innerText = quesoSel.length > 0 ? quesoSel.join(', ') : 'Sin queso extra';
+
+        const papasElem = document.querySelector('input[name="papas_iguales"]:checked');
+        if (papasElem) {
+            document.getElementById("sub-papas").innerText = papasElem.value;
+        }
+
+        // Subtítulos para sándwich A / B
+        const vegA = obtenerArraySeleccionados('input[name="veg_a"]');
+        const salsaA = obtenerArraySeleccionados('input[name="salsa_a"]');
+        const quesoA = obtenerArraySeleccionados('input[name="queso_a"]');
+        document.getElementById("sub-sand-a").innerText = `Salsas: ${salsaA.length ? salsaA.join(',') : 'Sin salsa'} | Queso: ${quesoA.length ? quesoA.join(',') : 'Sin queso'}`;
+
+        const vegB = obtenerArraySeleccionados('input[name="veg_b"]');
+        const salsaB = obtenerArraySeleccionados('input[name="salsa_b"]');
+        const quesoB = obtenerArraySeleccionados('input[name="queso_b"]');
+        document.getElementById("sub-sand-b").innerText = `Salsas: ${salsaB.length ? salsaB.join(',') : 'Sin salsa'} | Queso: ${quesoB.length ? quesoB.join(',') : 'Sin queso'}`;
+
+        generarResumenNatural();
+    }
+
+    function describirSandwich(vegExcluidos, salsas, quesos, papas) {
+        const vegetalesBase = ["Zanahoria", "Morrón", "Cebolla"];
+        const vegExcluidosLower = vegExcluidos.map(v => v.replace("Sin ", "").toLowerCase());
+        const vegIncluidos = vegetalesBase.filter(v => !vegExcluidosLower.includes(v.toLowerCase()));
+        const vegQuitados = vegetalesBase.filter(v => vegExcluidosLower.includes(v.toLowerCase()));
+
+        let lineas = [];
+
+        // Vegetales: se listan todos, marcando con check o tache
+        vegetalesBase.forEach(v => {
+            const incluido = vegIncluidos.includes(v);
+            lineas.push(`${incluido ? '✅' : '❌'} ${v}`);
+        });
+
+        // Salsas
+        if (salsas.length > 0) {
+            salsas.forEach(s => lineas.push(`✅ ${s}`));
+        } else {
+            lineas.push(`❌ Sin salsa`);
+        }
+
+        // Quesos
+        if (quesos.length > 0) {
+            quesos.forEach(q => lineas.push(`✅ Queso ${q}`));
+        } else {
+            lineas.push(`❌ Sin queso extra`);
+        }
+
+        // Papas
+        if (papas) {
+            lineas.push(`🍟 Papas: ${papas}`);
+        }
+
+        return lineas.join('<br>');
+    }
+
+    function tarjetaSandwich(titulo, vegExcluidos, salsas, quesos, papas) {
+        return `<div class="tarjeta-sandwich">
+            <span class="tarjeta-sandwich-titulo">🥪 ${titulo}</span>
+            <div class="tarjeta-sandwich-lista">${describirSandwich(vegExcluidos, salsas, quesos, papas)}</div>
+        </div>`;
+    }
+
+    function generarResumenNatural() {
+        const menuElem = document.querySelector('input[name="tipoMenu"]:checked');
+        const contenedor = document.getElementById("resumenNaturalTexto");
+        if (!menuElem || !contenedor) return;
+
+        const tipoMenu = menuElem.value;
+        const esCombo2x1 = tipoMenu.includes("2x1");
+        const llevaPapas = !tipoMenu.includes("Sin papas");
+
+        let html = "";
+
+        if (!esCombo2x1) {
+            const veg = obtenerArraySeleccionados('input[name="veg"]');
+            const salsas = obtenerArraySeleccionados('input[name="salsa"]');
+            const quesos = obtenerArraySeleccionados('input[name="queso"]');
+            const papas = llevaPapas ? (document.querySelector('input[name="papas_iguales"]:checked')?.value || "") : "";
+            html = tarjetaSandwich("Tu sándwich", veg, salsas, quesos, papas);
+        } else {
+            const modoArmado = document.querySelector('input[name="modoArmado"]:checked')?.value;
+            if (modoArmado === 'iguales') {
+                const veg = obtenerArraySeleccionados('input[name="veg"]');
+                const salsas = obtenerArraySeleccionados('input[name="salsa"]');
+                const quesos = obtenerArraySeleccionados('input[name="queso"]');
+                const papas = llevaPapas ? (document.querySelector('input[name="papas_iguales"]:checked')?.value || "") : "";
+                html = tarjetaSandwich("Sándwich 1 y 2 (iguales)", veg, salsas, quesos, papas);
+            } else {
+                const vegA = obtenerArraySeleccionados('input[name="veg_a"]');
+                const salsaA = obtenerArraySeleccionados('input[name="salsa_a"]');
+                const quesoA = obtenerArraySeleccionados('input[name="queso_a"]');
+                const papasA = llevaPapas ? (document.querySelector('input[name="papas_a"]:checked')?.value || "") : "";
+
+                const vegB = obtenerArraySeleccionados('input[name="veg_b"]');
+                const salsaB = obtenerArraySeleccionados('input[name="salsa_b"]');
+                const quesoB = obtenerArraySeleccionados('input[name="queso_b"]');
+                const papasB = llevaPapas ? (document.querySelector('input[name="papas_b"]:checked')?.value || "") : "";
+
+                html = tarjetaSandwich("Sándwich A", vegA, salsaA, quesoA, papasA);
+                html += tarjetaSandwich("Sándwich B", vegB, salsaB, quesoB, papasB);
+            }
+        }
+
+        const sel = extrasSeleccionados();
+        if (sel.length) {
+            html += `<div class="tarjeta-sandwich">
+                <span class="tarjeta-sandwich-titulo">➕ Extras</span>
+                <div class="tarjeta-sandwich-lista">${sel.map(x => `✅ ${extras[x.id]} x ${x.nombre}`).join('<br>')}<br>💵 Suman ${formatoPesos(totalExtras())}</div>
+            </div>`;
+        }
+
+        contenedor.innerHTML = html;
+    }
+
+    function actualizarMenu() {
+        const menuSeleccionado = document.querySelector('input[name="tipoMenu"]:checked').value;
+        const esCombo2x1 = menuSeleccionado.includes("2x1");
+        const llevaPapas = !menuSeleccionado.includes("Sin papas");
+
+        const seccionModo = document.getElementById("seccion-modo-armado");
+        const titVeg = document.getElementById("titulo-veg");
+        const titSalsas = document.getElementById("titulo-salsas");
+        const titQuesos = document.getElementById("titulo-quesos");
+
+        if (esCombo2x1) {
+            seccionModo.style.display = "block";
+            titVeg.innerText = "🥬 Vegetales (Ambos sándwiches)";
+            titSalsas.innerText = "🥫 Salsas (Ambos sándwiches)";
+            titQuesos.innerText = "🧀 Agregado de Queso (Ambos sándwiches)";
+            cambiarModoArmado();
+        } else {
+            seccionModo.style.display = "none";
+            document.getElementById("bloque-iguales").style.display = "block";
+            document.getElementById("bloque-diferentes").style.display = "none";
+            titVeg.innerText = "🥬 Vegetales";
+            titSalsas.innerText = "🥫 Salsas & Aderezos";
+            titQuesos.innerText = "🧀 Agregado de Queso";
+        }
+
+        const contenedoresPapas = document.querySelectorAll('.seccion-papas-contenedor');
+        contenedoresPapas.forEach(el => {
+            el.style.display = llevaPapas ? "block" : "none";
+        });
+
+        actualizarResumenCabecera();
+    }
+
+    function cambiarModoArmado() {
+        const menuSeleccionado = document.querySelector('input[name="tipoMenu"]:checked').value;
+        if (!menuSeleccionado.includes("2x1")) return;
+
+        const modo = document.querySelector('input[name="modoArmado"]:checked').value;
+        if(modo === 'diferentes') {
+            document.getElementById("bloque-iguales").style.display = "none";
+            document.getElementById("bloque-diferentes").style.display = "block";
+        } else {
+            document.getElementById("bloque-iguales").style.display = "block";
+            document.getElementById("bloque-diferentes").style.display = "none";
+        }
+        actualizarResumenCabecera();
+    }
+
+    function obtenerArraySeleccionados(selector) {
+        return Array.from(document.querySelectorAll(selector + ':checked')).map(e => e.value);
+    }
+
+    function obtenerValoresSeleccionados(selector) {
+        let items = obtenerArraySeleccionados(selector);
+        return items.length > 0 ? items.join(", ") : "Sin agregados / Completo";
+    }
+
+    function agregarAlCarrito(esFinalizar) {
+        const nombre = document.getElementById("nombreCliente").value;
+        const direccion = document.getElementById("direccionCliente").value;
+
+        if(nombre.trim() === "" || direccion.trim() === "") {
+            mostrarModal("Completá tu nombre y tu dirección en la primera sección para continuar.");
+            document.getElementById("nombreCliente").focus();
+            return;
+        }
+
+        if (!envioGps && !document.getElementById("localidadEnvio").value) {
+            mostrarModal("Falta calcular el envío: tocá «Calcular mi envío con mi ubicación» o elegí tu zona de envío.");
+            const bz = document.getElementById("bloque-zona");
+            if (bz && bz.style.display !== "none") bz.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+
+        const menuSeleccionado = document.querySelector('input[name="tipoMenu"]:checked');
+        const tipoMenu = menuSeleccionado.value;
+        const precio = parseInt(menuSeleccionado.getAttribute('data-precio'));
+        const esCombo2x1 = tipoMenu.includes("2x1");
+        const cantidad = parseInt(document.getElementById("cantidadSandwich").value) || 1;
+        const llevaPapas = !tipoMenu.includes("Sin papas");
+
+        let detalleSandwiches = {};
+
+        if (!esCombo2x1) {
+            const veg = obtenerValoresSeleccionados('input[name="veg"]');
+            const salsas = obtenerValoresSeleccionados('input[name="salsa"]');
+            const quesos = obtenerValoresSeleccionados('input[name="queso"]');
+            const papas = llevaPapas ? document.querySelector('input[name="papas_iguales"]:checked').value : "Sin papas";
+
+            detalleSandwiches = {
+                modo: 'Individual',
+                desc: `Sándwich Individual:\n  • Veg: ${veg}\n  • Salsas: ${salsas}\n  • Quesos: ${quesos}` + (llevaPapas ? `\n  • Papas: ${papas}` : '')
+            };
+        } else {
+            const modoArmado = document.querySelector('input[name="modoArmado"]:checked').value;
+
+            if (modoArmado === 'iguales') {
+                const veg = obtenerValoresSeleccionados('input[name="veg"]');
+                const salsas = obtenerValoresSeleccionados('input[name="salsa"]');
+                const quesos = obtenerValoresSeleccionados('input[name="queso"]');
+                const papas = llevaPapas ? document.querySelector('input[name="papas_iguales"]:checked').value : "Sin papas";
+                
+                detalleSandwiches = {
+                    modo: 'Iguales',
+                    desc: `2 Sándwiches iguales:\n  • Veg: ${veg}\n  • Salsas: ${salsas}\n  • Quesos: ${quesos}` + (llevaPapas ? `\n  • Papas (Ambos): ${papas}` : '')
+                };
+            } else {
+                const vegA = obtenerValoresSeleccionados('input[name="veg_a"]');
+                const salsasA = obtenerValoresSeleccionados('input[name="salsa_a"]');
+                const quesosA = obtenerValoresSeleccionados('input[name="queso_a"]');
+                const papasA = llevaPapas ? document.querySelector('input[name="papas_a"]:checked').value : "Sin papas";
+
+                const vegB = obtenerValoresSeleccionados('input[name="veg_b"]');
+                const salsasB = obtenerValoresSeleccionados('input[name="salsa_b"]');
+                const quesosB = obtenerValoresSeleccionados('input[name="queso_b"]');
+                const papasB = llevaPapas ? document.querySelector('input[name="papas_b"]:checked').value : "Sin papas";
+
+                detalleSandwiches = {
+                    modo: 'Diferentes',
+                    desc: `Sándwich A:\n  • Veg: ${vegA}\n  • Salsas: ${salsasA}\n  • Quesos: ${quesosA}` + (llevaPapas ? `\n  • Papas A: ${papasA}` : '') +
+                          `\nSándwich B:\n  • Veg: ${vegB}\n  • Salsas: ${salsasB}\n  • Quesos: ${quesosB}` + (llevaPapas ? `\n  • Papas B: ${papasB}` : '')
+                };
+            }
+        }
+
+        const extrasElegidos = extrasSeleccionados();
+        const extrasTotal = totalExtras();
+        if (extrasElegidos.length) {
+            detalleSandwiches.desc += `\n  • Extras: ` + extrasElegidos.map(x => `${extras[x.id]} x ${x.nombre}`).join(', ');
+        }
+
+        carrito.push({ tipoMenu, precio, detalleSandwiches, cantidad, extrasTotal });
+
+        if (esFinalizar) {
+            procesarPedidoFinal(nombre, direccion);
+        } else {
+            const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+            document.getElementById("contador-carrito").style.display = "block";
+            document.getElementById("contador-carrito").innerText = `🛒 ¡Listo! Tenés ${totalItems} producto(s) en tu pedido. Podés armar otro abajo.`;
+            
+            // Limpiar campos para un nuevo item
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById("cantidadSandwich").value = "1";
+            resetExtras();
+            
+            const primerMenu = document.querySelector('input[name="tipoMenu"][value="2x1 Con papas"]');
+            if (primerMenu) primerMenu.checked = true;
+            
+            const primerModo = document.querySelector('input[name="modoArmado"][value="iguales"]');
+            if (primerModo) primerModo.checked = true;
+
+            actualizarMenu();
+            document.getElementById("seccion-cliente").style.display = "none";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function procesarPedidoFinal(nombre, direccion) {
+        guardarDatosCliente(nombre, direccion);
+        try { localStorage.setItem('pb_ultimo', JSON.stringify(carrito)); } catch (e) {}
+        const localidadSelect = document.getElementById("localidadEnvio");
+        const usaGps = !!envioGps;
+        const costoEnvio = usaGps ? envioGps.costo : parseInt(localidadSelect.value);
+        const nombreLocalidad = usaGps
+            ? `ubicación GPS, ≈${formatoKm(envioGps.km)} km`
+            : localidadSelect.options[localidadSelect.selectedIndex].getAttribute("data-nombre");
+
+        let subtotalProductos = 0;
+        let htmlResumen = `<div style="font-size:15px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px; margin-bottom:14px;"><strong>👤 Cliente:</strong> ${nombre}<br><strong>📍 Entrega:</strong> ${direccion} (${nombreLocalidad})</div>`;
+        
+        let mensajeTexto = `*¡Hola Pork & Beef! Deseo realizar el siguiente pedido:* 🍔🔥\n\n`;
+        mensajeTexto += `👤 *Cliente:* ${nombre}\n`;
+        mensajeTexto += `📍 *Dirección:* ${direccion} (${nombreLocalidad})\n`;
+        if (usaGps) mensajeTexto += `🗺️ *Ubicación exacta:* ${envioGps.link}\n`;
+        mensajeTexto += `-----------------------------------\n\n`;
+
+        let resumenExcel = [];
+
+        carrito.forEach((item, index) => {
+            let subtotalItem = item.precio * item.cantidad + (item.extrasTotal || 0);
+            subtotalProductos += subtotalItem;
+
+            let subtotalFormatted = new Intl.NumberFormat('es-AR').format(subtotalItem);
+
+            resumenExcel.push(`[Ítem #${index+1} (${item.tipoMenu}) x${item.cantidad}: ${item.detalleSandwiches.desc.replace(/\n/g, " | ")}]`);
+
+            htmlResumen += `
+                <details class="acordeon-pedido" open>
+                    <summary>Ítem #${index + 1} (x${item.cantidad}) - $${subtotalFormatted}</summary>
+                    <div class="acordeon-detalle">
+                        <strong>Menú:</strong> ${item.tipoMenu}<br>
+                        <pre>${item.detalleSandwiches.desc}</pre>
+                    </div>
+                </details>
+            `;
+
+            mensajeTexto += `🛒 *ÍTEM #${index + 1}* (x${item.cantidad})\n`;
+            mensajeTexto += `📌 *Opción:* ${item.tipoMenu}\n`;
+            mensajeTexto += `${item.detalleSandwiches.desc}\n`;
+            mensajeTexto += `💵 *Subtotal:* $${subtotalFormatted}\n\n`;
+        });
+
+        let totalGeneral = subtotalProductos + costoEnvio;
+
+        let totalFormatted = new Intl.NumberFormat('es-AR').format(totalGeneral);
+        let subtotalProductosFormatted = new Intl.NumberFormat('es-AR').format(subtotalProductos);
+        let costoEnvioFormatted = new Intl.NumberFormat('es-AR').format(costoEnvio);
+
+        htmlResumen += `<div style="text-align: right; color: var(--text-secondary); margin-top: 20px; font-size:13px; line-height:1.6;">Subtotal productos: $${subtotalProductosFormatted}<br>Costo de envío (${nombreLocalidad}): $${costoEnvioFormatted}</div>`;
+        htmlResumen += `<div class="total-destacado">TOTAL A PAGAR: $${totalFormatted}</div>`;
+        
+        mensajeTexto += `-----------------------------------\n`;
+        mensajeTexto += `🚚 *Envío (${nombreLocalidad}):* $${costoEnvioFormatted}\n`;
+        mensajeTexto += `💰 *TOTAL FINAL A PAGAR: $${totalFormatted}*\n\n`;
+        mensajeTexto += `¿Me comparten por favor los datos bancarios para realizar la transferencia? ¡Muchas gracias!`;
+
+        // URL de Google Apps Script Webhook
+        const urlScript = "https://script.google.com/macros/s/AKfycbw-Z44SDZTsHFdt9W07pTcn7WiOImW84ZmEqG_sIl1BFPU5LrwV43fEfLxBzDmSph1GDw/exec";
+        const params = new URLSearchParams();
+        let fechaPedido;
+        try { fechaPedido = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }); }
+        catch (e) { fechaPedido = new Date().toLocaleString(); }
+        params.append("Fecha", fechaPedido);
+        params.append("Nombre", nombre);
+        params.append("Direccion", `${direccion} (${nombreLocalidad})`);
+        params.append("Pedido", resumenExcel.join("\n"));
+        params.append("Total", `$${totalFormatted}`);
+        params.append("Ubicacion", usaGps ? envioGps.link : "");
+        params.append("Envio", `$${costoEnvioFormatted} (${nombreLocalidad})`);
+        
+        fetch(urlScript, { method: "POST", body: params, mode: "no-cors" }).catch(e => console.error(e));
+
+        document.getElementById("cajaResumen").innerHTML = htmlResumen;
+        
+        const linkWhatsApp = `https://api.whatsapp.com/send?phone=5491123125597&text=${encodeURIComponent(mensajeTexto)}`;
+        document.getElementById("btnWhatsappLink").setAttribute("href", linkWhatsApp);
+
+        document.getElementById("pantalla-pedido").style.display = "none";
+        const pantallaGracias = document.getElementById("pantalla-gracias");
+        pantallaGracias.style.display = "block";
+        pantallaGracias.classList.add("animar");
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Inicializar estado al cargar pantalla
+    // ---------- Pestañas Pedir / Info ----------
+    // Datos opcionales del local: completalos y aparecen solos en «Envíos y ayuda». Si los dejás vacíos, no se muestran.
+    const INFO_LOCAL = {
+        horarios: '',   // ej.: 'Martes a domingo de 20 a 23:30'
+        pago: '',       // ej.: 'Efectivo y transferencia'
+        direccion: ''   // ej.: 'Retiro por el local: Calle 123'
+    };
+
+    function esc2(t) { return String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+    // ---------- Repetir el último pedido ----------
+    function ultimoPedido() {
+        try {
+            const c = JSON.parse(localStorage.getItem('pb_ultimo') || 'null');
+            if (!Array.isArray(c) || !c.length) return null;
+            const ok = c.every(it => it && typeof it.precio === 'number' && typeof it.cantidad === 'number' && it.detalleSandwiches && typeof it.detalleSandwiches.desc === 'string' && typeof it.tipoMenu === 'string');
+            return ok ? c : null;
+        } catch (e) { return null; }
+    }
+    function mostrarRepetir() {
+        const c = ultimoPedido();
+        gid('repetir-bloque').hidden = !c;
+        if (!c) return;
+        const total = c.reduce((a, it) => a + it.precio * it.cantidad + (it.extrasTotal || 0), 0);
+        const n = c.reduce((a, it) => a + it.cantidad, 0);
+        gid('btn-repetir').innerHTML = `<span>🔁 Repetir mi último pedido (${n} ${n === 1 ? 'combo' : 'combos'})</span><b>${formatoPesos(total)}</b>`;
+    }
+    function repetirUltimo() {
+        const c = ultimoPedido();
+        if (!c) return;
+        const nombre = gid('nombreCliente').value, direccion = gid('direccionCliente').value;
+        if (nombre.trim() === '' || direccion.trim() === '') {
+            mostrarModal('Completá tu nombre y tu dirección para repetir el pedido.');
+            gid('nombreCliente').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        if (!envioGps && !gid('localidadEnvio').value) {
+            mostrarModal('Elegí tu zona de envío o calculá el envío con tu ubicación para repetir el pedido.');
+            return;
+        }
+        carrito = c;
+        procesarPedidoFinal(nombre, direccion);
+    }
+
+    // ---------- Combos a la vista (usan las mismas opciones del menú) ----------
+    function armarCombos() {
+        const cont = gid('combos');
+        const radios = Array.from(document.querySelectorAll('input[name="tipoMenu"]'));
+        cont.innerHTML = radios.map((r, i) => {
+            const txt = r.parentElement.querySelector('.opcion-bloque-precio span').innerText.trim();
+            const emoji = Array.from(txt)[0];
+            const nombre = txt.replace(emoji, '').trim();
+            const dos = r.value.includes('2x1');
+            const desc = `${dos ? '2 sándwiches' : '1 sándwich'} · ${r.value.includes('Sin papas') ? 'sin papas' : 'con papas'}`;
+            return `<button type="button" class="combo" data-i="${i}" aria-pressed="false"><span class="c-emoji">${esc2(emoji)}</span><span class="c-nombre">${esc2(nombre)}</span><span class="c-desc">${esc2(desc)}</span><span class="c-precio">${formatoPesos(parseInt(r.getAttribute('data-precio')))}</span></button>`;
+        }).join('');
+        cont.querySelectorAll('button.combo').forEach(btn => btn.addEventListener('click', () => {
+            radios[parseInt(btn.dataset.i)].checked = true;
+            actualizarMenu();
+            pintarCombos();
+        }));
+        pintarCombos();
+    }
+    function pintarCombos() {
+        const radios = Array.from(document.querySelectorAll('input[name="tipoMenu"]'));
+        document.querySelectorAll('button.combo').forEach(btn => {
+            const on = radios[parseInt(btn.dataset.i)].checked;
+            btn.classList.toggle('on', on);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+    }
+
+    function armarInfo() {
+        const sel = gid('localidadEnvio');
+        gid('info-zonas').innerHTML = Array.from(sel.options).filter(o => o.value)
+            .map(o => `<tr><td>${esc2(o.getAttribute('data-nombre'))}</td><td>${formatoPesos(parseInt(o.value))}</td></tr>`).join('');
+        gid('info-extras').innerHTML = EXTRAS_CATALOGO
+            .map(x => `<tr><td>${esc2(x.nombre)}</td><td>${formatoPesos(x.precio)}</td></tr>`).join('');
+        const datos = [['Horarios', INFO_LOCAL.horarios], ['Medios de pago', INFO_LOCAL.pago], ['Retiro', INFO_LOCAL.direccion]].filter(d => d[1]);
+        gid('info-local').innerHTML = datos.length
+            ? '<h3>El local</h3>' + datos.map(d => `<p class="info-dato"><b>${d[0]}:</b> ${esc2(d[1])}</p>`).join('') : '';
+    }
+
+    function mostrarTab(t) {
+        const info = t === 'info';
+        gid('pantalla-info').classList.toggle('on', info);
+        gid('pantalla-pedido').classList.toggle('tab-oculta', info);
+        gid('tab-info').classList.toggle('on', info);
+        gid('tab-pedir').classList.toggle('on', !info);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        actualizarBarra();
+    }
+
+    // ---------- Barra con el total ----------
+    function irAFinalizar() {
+        const btns = document.querySelectorAll('#pantalla-pedido > button');
+        const ultimo = btns[btns.length - 1];
+        if (ultimo) ultimo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function actualizarBarra() {
+        const barra = gid('barra-total');
+        pintarCombos();
+        gid('nav-tabs').style.display = getComputedStyle(gid('pantalla-gracias')).display !== 'none' ? 'none' : 'flex';
+        const visible = getComputedStyle(gid('pantalla-pedido')).display !== 'none';
+        barra.style.display = visible ? 'flex' : 'none';
+        if (!visible) return;
+        const menu = document.querySelector('input[name="tipoMenu"]:checked');
+        const precio = menu ? parseInt(menu.getAttribute('data-precio')) || 0 : 0;
+        const cant = parseInt(gid('cantidadSandwich').value) || 1;
+        const enCarrito = carrito.reduce((a, it) => a + it.precio * it.cantidad + (it.extrasTotal || 0), 0);
+        const productos = enCarrito + precio * cant + totalExtras();
+        const sel = gid('localidadEnvio');
+        const envio = envioGps ? envioGps.costo : (parseInt(sel.value) || null);
+        gid('barra-monto').innerText = formatoPesos(productos + (envio || 0));
+        gid('barra-detalle').innerText = envio !== null
+            ? `Productos ${formatoPesos(productos)} + envío ${formatoPesos(envio)}`
+            : `Productos ${formatoPesos(productos)} · falta elegir el envío`;
+    }
+    ['click', 'change', 'input'].forEach(ev => document.addEventListener(ev, () => setTimeout(actualizarBarra, 0)));
+    setInterval(actualizarBarra, 700);
+
+    // ---------- Recordar nombre y dirección de este celular ----------
+    function guardarDatosCliente(nombre, direccion) {
+        try {
+            const sel = gid('localidadEnvio');
+            const zona = envioGps ? '' : (sel.options[sel.selectedIndex].getAttribute('data-nombre') || '');
+            localStorage.setItem('pb_cliente', JSON.stringify({ nombre, direccion, zona }));
+        } catch (e) {}
+    }
+    function borrarDatosCliente() {
+        try { localStorage.removeItem('pb_cliente'); } catch (e) {}
+        gid('nombreCliente').value = '';
+        gid('direccionCliente').value = '';
+        gid('localidadEnvio').selectedIndex = 0;
+        const av = gid('datos-guardados'); if (av) av.remove();
+        actualizarResumenCabecera();
+    }
+    function recuperarDatosCliente() {
+        try {
+            const d = JSON.parse(localStorage.getItem('pb_cliente') || 'null');
+            if (!d || !d.nombre) return;
+            if (!gid('nombreCliente').value) gid('nombreCliente').value = String(d.nombre);
+            if (!gid('direccionCliente').value) gid('direccionCliente').value = String(d.direccion || '');
+            const sel = gid('localidadEnvio');
+            for (let i = 0; i < sel.options.length; i++) {
+                if (d.zona && sel.options[i].getAttribute('data-nombre') === d.zona) { sel.selectedIndex = i; break; }
+            }
+            const aviso = document.createElement('div');
+            aviso.className = 'datos-guardados'; aviso.id = 'datos-guardados';
+            aviso.innerHTML = 'Usamos los datos de tu último pedido. <button type="button" onclick="borrarDatosCliente()">No soy yo / borrar</button>';
+            const grupo = gid('direccionCliente').closest('.campo-grupo');
+            grupo.parentNode.insertBefore(aviso, grupo.nextSibling);
+        } catch (e) {}
+    }
+
+    window.onload = function() {
+        armarCombos();
+        armarInfo();
+        recuperarDatosCliente();
+        mostrarRepetir();
+        pintarExtras();
+        iniciarEnvioGps();
+        cargarLocal();
+        actualizarMenu();
+        actualizarResumenCabecera();
+        actualizarBarra();
+    }
+</script>
+
+</body>
+</html>

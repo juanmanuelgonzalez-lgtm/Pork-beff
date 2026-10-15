@@ -2776,7 +2776,7 @@
   var como=document.createElement('button');como.type='button';como.id='pb-como';como.innerHTML='❓ ¿Cómo pedir? <small>Mirá los pasos en 20 segundos</small>';
   var titulo=cb.querySelector('.combos-titulo');cb.insertBefore(abrir,titulo||cb.firstChild);cb.insertBefore(como,titulo||cb.firstChild);
   var fondo=document.createElement('div');fondo.id='ia-fondo';fondo.hidden=true;
-  fondo.innerHTML='<div id="ia-caja" role="dialog" aria-label="Bondi, asistente de pedidos"><div class="ia-cab"><span class="ia-cab-b"><svg class="bondi-svg" viewBox="0 0 64 64" aria-hidden="true"><path d="M7 31C7 10 57 10 57 31Z" fill="#e59b3d"/><ellipse cx="22" cy="19" rx="2.6" ry="1.5" fill="#fff1d0"/><ellipse cx="33" cy="15" rx="2.6" ry="1.5" fill="#fff1d0"/><ellipse cx="43" cy="20" rx="2.6" ry="1.5" fill="#fff1d0"/><path d="M5 32q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q4 3 6 0v4H5z" fill="#7cc04b"/><rect x="7" y="35" width="50" height="13" rx="6" fill="#5a2d17"/><circle cx="23" cy="41" r="3.6" fill="#fff"/><circle cx="41" cy="41" r="3.6" fill="#fff"/><circle cx="24" cy="41.5" r="1.8" fill="#1a0f08"/><circle cx="42" cy="41.5" r="1.8" fill="#1a0f08"/><path d="M28 44.5q4 3 8 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M7 50h50c0 8-9 11-25 11S7 58 7 50z" fill="#e59b3d"/></svg> <span class="ia-cab-t"><b>Bondi</b><small>Asistente de Pork &amp; Beef</small></span></span><button type="button" id="ia-cerrar" aria-label="Cerrar">✕</button></div><div id="ia-msgs"></div><div class="ia-aviso">Asistente con inteligencia artificial: revisá tu pedido antes de finalizar.</div><form class="ia-form" id="ia-form"><button type="button" class="mic" id="ia-mic" aria-label="Hablar">🎤</button><input id="ia-in" type="text" maxlength="300" placeholder="Escribí tu mensaje…" autocomplete="off" aria-label="Tu mensaje"><button type="submit" id="ia-env">Enviar</button></form></div>';
+  fondo.innerHTML='<div id="ia-caja" role="dialog" aria-label="Bondi, asistente de pedidos"><div class="ia-cab"><span class="ia-cab-b"><svg class="bondi-svg" viewBox="0 0 64 64" aria-hidden="true"><path d="M7 31C7 10 57 10 57 31Z" fill="#e59b3d"/><ellipse cx="22" cy="19" rx="2.6" ry="1.5" fill="#fff1d0"/><ellipse cx="33" cy="15" rx="2.6" ry="1.5" fill="#fff1d0"/><ellipse cx="43" cy="20" rx="2.6" ry="1.5" fill="#fff1d0"/><path d="M5 32q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q4 3 6 0v4H5z" fill="#7cc04b"/><rect x="7" y="35" width="50" height="13" rx="6" fill="#5a2d17"/><circle cx="23" cy="41" r="3.6" fill="#fff"/><circle cx="41" cy="41" r="3.6" fill="#fff"/><circle cx="24" cy="41.5" r="1.8" fill="#1a0f08"/><circle cx="42" cy="41.5" r="1.8" fill="#1a0f08"/><path d="M28 44.5q4 3 8 0" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M7 50h50c0 8-9 11-25 11S7 58 7 50z" fill="#e59b3d"/></svg> <span class="ia-cab-t"><b>Bondi</b><small>Asistente de Pork &amp; Beef</small></span></span><button type="button" id="ia-cerrar" aria-label="Cerrar">✕</button></div><div id="ia-msgs"></div><div class="ia-aviso">Asistente con inteligencia artificial: revisá tu pedido antes de finalizar. <span style="opacity:.6">· chat v3</span></div><form class="ia-form" id="ia-form"><button type="button" class="mic" id="ia-mic" aria-label="Hablar">🎤</button><input id="ia-in" type="text" maxlength="300" placeholder="Escribí tu mensaje…" autocomplete="off" aria-label="Tu mensaje"><button type="submit" id="ia-env">Enviar</button></form></div>';
   document.body.appendChild(fondo);
   var msgs=document.getElementById('ia-msgs'),inp=document.getElementById('ia-in');inp.setAttribute('enterkeyhint','send');inp.setAttribute('autocomplete','off');var hist=[],ocupado=false,turnos=0,pedidoListo=null;
   var flota=document.createElement('button');flota.type='button';flota.id='ia-flota';flota.hidden=true;
@@ -2827,7 +2827,7 @@
     mic.classList.add('on');hablarBtn.textContent='🎤 Escuchando… tocá cuando termines';
     reco=iniciarReco(function(tx){inp.value=tx;},function(tx,err){
       mic.classList.remove('on');reco=null;hablarBtn.innerHTML='🎤 Hablar con Bondi';
-      if(err==='not-allowed'||err==='service-not-allowed'){burbuja('Necesito permiso para usar el micrófono: habilitalo en el navegador (candadito al lado de la dirección) y probá de nuevo.','bot');return;}
+      if(motivoVoz(err)){burbuja(motivoVoz(err),'bot');return;}
       if(tx)enviar(tx);else burbuja('No te escuché. Tocá el botón y probá de nuevo.','bot');
     });
     if(!reco){mic.classList.remove('on');hablarBtn.innerHTML='🎤 Hablar con Bondi';burbuja('No pude activar el micrófono. Escribime tu pedido acá.','bot');}
@@ -2866,6 +2866,12 @@
       u.onend=u.onerror=ok;estadoVoz('🔊 Te estoy hablando…','habla');speechSynthesis.speak(u);}catch(e){ok();}
   }
   // Escucha con paciencia: espera a que arranques a hablar y corta recién tras ~2,5 s de silencio
+  function motivoVoz(e){
+    return e==='audio-capture'?'No encuentro ningún micrófono conectado. Revisá que esté enchufado y elegido en el sistema.':
+      e==='network'?'El servicio de voz del navegador no se pudo conectar (sin internet o bloqueado). Probá de nuevo o escribí.':
+      e==='not-allowed'||e==='service-not-allowed'?'El navegador no me deja usar el micrófono. Tocá el candadito al lado de la dirección y permitilo.':
+      e==='language-not-supported'?'El navegador no soporta voz en español.':'';
+  }
   function iniciarReco(onTexto,onFin){
     var tx='',fin=false,err='',reint=0,silT=null,iniT=null,r;
     function limpiar(){clearTimeout(silT);clearTimeout(iniT);}
@@ -2873,12 +2879,13 @@
     try{r=new SR();}catch(e){return null;}
     r.lang='es-AR';r.continuous=true;r.interimResults=true;
     r.onresult=function(e){tx='';for(var i=0;i<e.results.length;i++)tx+=e.results[i][0].transcript;onTexto(tx);clearTimeout(iniT);clearTimeout(silT);silT=setTimeout(cerrar,2500);};
-    r.onerror=function(e){err=(e&&e.error)||'';};
+    r.onerror=function(e){err=(e&&e.error)||'';try{console.log('[Bondi voz] error:',err);}catch(x){}};
     r.onend=function(){
       if(fin)return;
-      if(!tx.trim()&&!err&&reint<4){reint++;try{r.start();return;}catch(x){}}
+      if(!tx.trim()&&(!err||err==='no-speech'||err==='aborted')&&reint<4){reint++;try{r.start();return;}catch(x){}}
       fin=true;limpiar();onFin(tx.trim(),err);
     };
+    r.onstart=function(){try{console.log('[Bondi voz] escuchando');}catch(x){}};
     iniT=setTimeout(cerrar,10000);
     try{r.start();}catch(e){return null;}
     return {stop:cerrar,abort:function(){fin=true;limpiar();try{r.abort();}catch(e){}}};
@@ -2889,7 +2896,7 @@
     estadoVoz('🎤 Te escucho… hablá tranquilo, no hace falta apretar nada','escucha');mic.classList.add('on');
     reco=iniciarReco(function(tx){inp.value=tx;estadoVoz('🎤 '+tx,'escucha');},function(tx,err){
       mic.classList.remove('on');reco=null;
-      if(err==='not-allowed'||err==='service-not-allowed'){vozOn=false;estadoVoz('Necesito permiso para usar el micrófono. Podés escribir tu pedido abajo.','pausa');return;}
+      if(motivoVoz(err)){vozOn=false;estadoVoz(motivoVoz(err),'pausa');burbuja(motivoVoz(err),'bot');return;}
       if(tx){sinHabla=0;enviar(tx);}
       else if(vozOn){sinHabla++;if(sinHabla>=2){vozOn=false;estadoVoz('Pausa. Tocá el micrófono 🎤 para seguir hablando.','pausa');}else setTimeout(escuchar,300);}
     });

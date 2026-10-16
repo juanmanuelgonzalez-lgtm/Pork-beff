@@ -2789,7 +2789,7 @@
     var itemC=document.createElement('button');itemC.type='button';itemC.textContent='❓ ¿Cómo pedir?';itemC.onclick=function(){if(window.cerrarMenu)cerrarMenu();window.pbComoPedir();};dr.insertBefore(itemC,dr.children[1]||null);}
   var vista=/[?&]asistente/.test(location.search);   // ?asistente en el link = ver el botón aunque la IA todavía no esté activada
   setInterval(function(){
-    var on=true;if(mic&&SR&&!ES_IOS)mic.style.display=iaActiva()?'':'none';abrir.hidden=!on;if(itemM)itemM.hidden=!on;
+    var on=true;if(mic&&SR)mic.style.display=iaActiva()?'':'none';abrir.hidden=!on;if(itemM)itemM.hidden=!on;
     function vis(i){var e=document.getElementById(i);return !!(e&&e.offsetParent!==null);}
     var enGracias=vis('pantalla-gracias'),otraPantalla=vis('pantalla-info')||vis('pantalla-nosotros');
     var r=abrir.getBoundingClientRect(),heroVisible=!abrir.hidden&&r.bottom>0&&r.top<innerHeight;
@@ -2830,8 +2830,8 @@
     mic.classList.add('on');hablarBtn.textContent='🎤 Escuchando… tocá cuando termines';
     reco=iniciarReco(function(tx){inp.value=tx;},function(tx,err){
       mic.classList.remove('on');reco=null;hablarBtn.innerHTML='🎤 Hablar con Bondi';
-      if(motivoVoz(err)){burbuja(motivoVoz(err),'bot');return;}
-      if(tx)enviar(tx);else burbuja('No te escuché. Tocá el botón y probá de nuevo.','bot');
+      if(motivoVoz(err)){burbuja(motivoVoz(err),'bot');if(ES_IOS)dictadoTeclado();return;}
+      if(tx)enviar(tx);else{burbuja('No te escuché. Tocá el botón y probá de nuevo.','bot');if(ES_IOS)dictadoTeclado();}
     });
     if(!reco){mic.classList.remove('on');hablarBtn.innerHTML='🎤 Hablar con Bondi';burbuja('No pude activar el micrófono. Escribime tu pedido acá.','bot');}
   }
@@ -2849,11 +2849,11 @@
     var c=document.createElement('div');c.className='ia-chips';var b=document.createElement('button');b.type='button';b.textContent='Elegir mi combo';b.onclick=irCombos;c.appendChild(b);msgs.appendChild(c);msgs.scrollTop=msgs.scrollHeight;}
   function iaActiva(){return !!window.PB_IA||vista;}
   var hablarBtn=document.createElement('button');hablarBtn.type='button';hablarBtn.id='ia-hablar';hablarBtn.innerHTML='🎤 Hablar con Bondi';document.getElementById('ia-caja').insertBefore(hablarBtn,msgs);
-  hablarBtn.onclick=function(){if(ES_IOS){dictadoTeclado();return;}if(iaActiva())abrirVoz();else escucharLocal();};
+  hablarBtn.onclick=function(){if(ES_IOS&&!SR){dictadoTeclado();return;}if(iaActiva())abrirVoz();else escucharLocal();};
   var ES_IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
   function dictadoTeclado(){
     var yaDijo=!!document.getElementById('ia-tip-ios');
-    if(!yaDijo){var d=burbuja('En iPhone el micrófono de la página no funciona bien. Hacelo así, es fácil: tocá el cuadro de abajo y después el 🎤 del teclado (abajo a la derecha). Hablá, tocá "Listo" y después "Enviar".','bot');d.id='ia-tip-ios';}
+    if(!yaDijo){var d=burbuja('Si el micrófono de la página no te anda en el iPhone, usá el del teclado: tocá el cuadro de abajo y después el 🎤 del teclado (abajo a la derecha). Hablá, tocá "Listo" y después "Enviar".','bot');d.id='ia-tip-ios';}
     setTimeout(function(){inp.focus();},150);
   }
   var vozOn=false,sinHabla=0,barra=null,estado=null;
@@ -2899,9 +2899,9 @@
     estadoVoz('🎤 Te escucho… hablá tranquilo, no hace falta apretar nada','escucha');mic.classList.add('on');
     reco=iniciarReco(function(tx){inp.value=tx;estadoVoz('🎤 '+tx,'escucha');},function(tx,err){
       mic.classList.remove('on');reco=null;
-      if(motivoVoz(err)){vozOn=false;estadoVoz(motivoVoz(err),'pausa');burbuja(motivoVoz(err),'bot');return;}
+      if(motivoVoz(err)){vozOn=false;estadoVoz(motivoVoz(err),'pausa');burbuja(motivoVoz(err),'bot');if(ES_IOS)dictadoTeclado();return;}
       if(tx){sinHabla=0;enviar(tx);}
-      else if(vozOn){sinHabla++;if(sinHabla>=2){vozOn=false;estadoVoz('Pausa. Tocá el micrófono 🎤 para seguir hablando.','pausa');}else setTimeout(escuchar,300);}
+      else if(vozOn){sinHabla++;if(sinHabla>=2){vozOn=false;estadoVoz('Pausa. Tocá el micrófono 🎤 para seguir hablando.','pausa');if(ES_IOS)dictadoTeclado();}else setTimeout(escuchar,300);}
     });
     if(!reco){mic.classList.remove('on');}
   }
@@ -2915,7 +2915,7 @@
   window.pbAbrirVoz=abrirVoz;
   function abrirChat(){fondo.hidden=false;document.body.style.overflow='hidden';if(!msgs.children.length)inicio();setTimeout(function(){inp.focus();},150);}
   function cerrarChat(){pararVoz();fondo.hidden=true;document.body.style.overflow='';}
-  function entrar(){if(ES_IOS){abrirChat();setTimeout(dictadoTeclado,350);return;}if(iaActiva())abrirVoz();else abrirChat();}
+  function entrar(){if(ES_IOS&&!SR){abrirChat();setTimeout(dictadoTeclado,350);return;}if(iaActiva())abrirVoz();else abrirChat();}
   abrir.onclick=entrar;flota.onclick=entrar;como.onclick=function(){window.pbComoPedir();};document.getElementById('ia-cerrar').onclick=cerrarChat;
   fondo.addEventListener('click',function(e){if(e.target===fondo)cerrarChat();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!fondo.hidden)cerrarChat();});
@@ -2942,7 +2942,7 @@
   }
   document.getElementById('ia-form').addEventListener('submit',function(e){e.preventDefault();enviar(inp.value);});
   // micrófono dentro del chat: activa/pausa la conversación hablada
-  if(!SR||ES_IOS)mic.style.display='none';
+  if(!SR)mic.style.display='none';
   mic.onclick=function(){
     if(vozOn||reco){pararVoz();return;}
     if(!barra){abrirVoz();return;}
